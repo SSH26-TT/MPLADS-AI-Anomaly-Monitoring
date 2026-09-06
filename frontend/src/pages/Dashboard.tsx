@@ -84,12 +84,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
       <div style={{ padding: '60px 20px', textAlign: 'center', color: 'var(--color-text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
         <div style={{ width: '40px', height: '40px', border: '3px solid var(--color-border)', borderTopColor: 'var(--color-primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }} />
         <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Loading MPLADS Monitoring Dashboard...</div>
-        <p style={{ fontSize: '13px', marginTop: '8px', color: 'var(--color-text-muted)' }}>
-          Fetching national dataset (98,755 projects across 36 States)...
-        </p>
-        <div style={{ marginTop: '16px', padding: '12px 16px', background: 'var(--color-surface)', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: '12px', color: 'var(--color-text-muted)' }}>
-          💡 <i>Tip: If this is the first visit after a period of inactivity, the free cloud backend (Render) may take ~15–20s to boot. Subsequent requests will load instantaneously.</i>
-        </div>
+        <p style={{ fontSize: '13px', marginTop: '6px', color: 'var(--color-text-muted)' }}>Fetching records and risk indicators...</p>
       </div>
     );
   }
