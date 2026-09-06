@@ -5,6 +5,7 @@
 
 <br/>
 
+[![Live Web App](https://img.shields.io/badge/Live%20Dashboard-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mplads-ai-anomaly-monitoring.vercel.app/)
 [![Live Backend](https://img.shields.io/badge/Live%20Backend-Render-005A36?style=for-the-badge&logo=render&logoColor=white)](https://mplads-ai-anomaly-monitoring.onrender.com/)
 [![Interactive Swagger API Docs](https://img.shields.io/badge/Swagger%20API%20Docs-Live-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%7C%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -16,14 +17,16 @@
 <br/>
 
 ### 🌐 **Live Cloud Deployment**:
-**Backend API Service**: [`https://mplads-ai-anomaly-monitoring.onrender.com`](https://mplads-ai-anomaly-monitoring.onrender.com/)  
-**Interactive Swagger API Docs**: [`https://mplads-ai-anomaly-monitoring.onrender.com/docs`](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
+**🖥️ Live Web Dashboard**: [`https://mplads-ai-anomaly-monitoring.vercel.app`](https://mplads-ai-anomaly-monitoring.vercel.app/)  
+**⚡ Backend API Service**: [`https://mplads-ai-anomaly-monitoring.onrender.com`](https://mplads-ai-anomaly-monitoring.onrender.com/)  
+**📖 Interactive Swagger API Docs**: [`https://mplads-ai-anomaly-monitoring.onrender.com/docs`](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
 
 <br/>
 
 [🌟 Key Highlights](#-key-capabilities) • [🤖 ML Architecture](#-machine-learning--anomaly-detection-architecture) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [🚀 Quick Launch](#-quick-start--local-deployment)
 
 </div>
+
 
 
 ---
