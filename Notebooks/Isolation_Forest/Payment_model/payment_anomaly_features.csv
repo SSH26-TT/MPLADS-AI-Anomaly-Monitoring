@@ -1,0 +1,13 @@
+feature
+fund_disbursed_amount
+sanction_amount
+payment_sequence_number
+days_since_previous_payment
+days_since_sanction
+prior_disbursed_amount
+prior_vendor_count
+payment_share_of_prior_disbursed_amount
+vendor_previous_payment_count
+vendor_previous_work_count
+vendor_previous_total_amount
+is_success

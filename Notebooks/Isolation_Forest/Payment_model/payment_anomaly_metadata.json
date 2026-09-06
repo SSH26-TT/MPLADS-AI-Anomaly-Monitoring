@@ -1,0 +1,26 @@
+{
+    "model_type": "IsolationForest",
+    "anomaly_unit": "payment",
+    "train_rows": 100603,
+    "test_rows": 8631,
+    "train_years": [
+        "2023-2024",
+        "2024-2025",
+        "2025-2026"
+    ],
+    "test_years": [
+        "2026-2027"
+    ],
+    "n_features": 12,
+    "n_estimators": 300,
+    "random_state": 42,
+    "primary_threshold_method": "training_p99",
+    "primary_threshold": 0.6191985092061404,
+    "test_anomaly_count": 83,
+    "test_anomaly_rate_percent": 0.9616498667593558,
+    "stable_anomalies_ge_4_of_5_seeds": 76,
+    "amount_anomaly_score_correlation": 0.3001,
+    "structural_missing_value_strategy": "constant_-1",
+    "validation_status": "PASSED",
+    "model_status": "FINAL / FROZEN"
+}

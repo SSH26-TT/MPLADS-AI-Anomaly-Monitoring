@@ -39,6 +39,31 @@
 
 ---
 
+## ⚠️ The Rising Challenge & Our AI Solution
+
+### The Real-World Challenge in Public Infrastructure Oversight
+Every year, thousands of vital community projects — from drinking water pipelines and rural roads to schools and healthcare centers — are sanctioned across India under the **Member of Parliament Local Area Development Scheme (MPLADS)**. 
+
+However, monitoring nearly **100,000 active projects** across 36 States and Union Territories creates a severe administrative bottleneck:
+- **Massive Data Overload**: Tracking hundreds of thousands of multi-stage disbursements, sanction approvals, and completion reports manually across physical files and static spreadsheets is virtually impossible.
+- **Hidden Discrepancies**: Process delays, abnormal payment release velocities, and projects marked physically complete without corresponding payment records often go unnoticed for months.
+- **Auditor Bottleneck**: District authorities and national audit teams lack an automated triage tool to tell them **which projects need immediate inspection today**.
+
+---
+
+### 💡 How Our System Solves It Efficiently
+The **MPLADS AI Monitor** transforms this massive operational challenge into an instant, automated decision-support platform:
+
+1. **National-Scale Screening in Seconds**: Continuously screens all **98,755 projects nationwide**, turning millions of raw administrative records into actionable intelligence.
+2. **Intelligent Triage (From 100,000 to the Critical 2%)**: Instead of inspecting 100,000 files blindly, our multi-criteria AI engine automatically isolates the **2,090 projects (just ~2%)** showing unusual disbursement patterns or milestone delays.
+3. **Dual Machine Learning + Deterministic Rules**:
+   - **Financial AI Model**: Evaluates sanction-to-disbursement ratios and budget variance.
+   - **Payment Velocity AI**: Flags unusual installment velocity, sequence anomalies, and vendor concentration.
+   - **Consistency Rules**: Automatically catches physical completion mismatches and sanction overruns.
+4. **Actionable 1-Click Governance**: Auditors can instantly filter state-by-state, inspect component breakdown cards, and initiate field inquiries with a single click.
+
+---
+
 ## 🌟 Key Capabilities
 
 ```
@@ -74,6 +99,7 @@
     </td>
   </tr>
 </table>
+
 
 ---
 
@@ -368,6 +394,18 @@ MPLADS-AI-Anomaly-Monitoring/
 │   ├── 📄 payment_anomaly_features.json   # 12 Payment feature definitions
 │   ├── 📄 risk_thresholds.json            # Classification cutoff thresholds
 │   └── 📄 payment_anomaly_thresholds.json # Transaction anomaly thresholds
+├── 📂 Notebooks/
+│   ├── 📂 Isolation_Forest/
+│   │   ├── 📂 Finance_model/              # Work-grain Financial anomaly model workflow
+│   │   │   ├── 📓 01_data_preparation.ipynb          # Feature engineering & dataset construction
+│   │   │   ├── 📓 02_financial_anomaly_model.ipynb   # Isolation Forest model training & evaluation
+│   │   │   └── 📓 03_model_export.ipynb              # Production model & metadata export
+│   │   └── 📂 Payment_model/              # Transaction-grain Sequence & Velocity model
+│   │       └── 📓 01.ipynb                           # Sequence feature engineering & model training
+│   └── 📂 "Execution & Risk_Score"/       # Physical execution consistency & composite risk scoring
+│       ├── 📓 Untitled.ipynb                         # Execution discrepancy heuristics & rules
+│       ├── 📓 Untitled1.ipynb                        # Multi-criteria composite risk calculation
+│       └── 📂 risk_score/                            # Intermediate scoring scripts & output validations
 ├── 📂 backend/
 │   ├── 📂 app/
 │   │   ├── 📂 models/           # SQLAlchemy ORM models (MPLADSProject)
@@ -393,6 +431,24 @@ MPLADS-AI-Anomaly-Monitoring/
 ├── 📄 .gitignore                # Git exclusions
 └── 📄 README.md                 # Project documentation
 ```
+
+---
+
+## 📓 Machine Learning Research & Experimentation Notebooks
+
+The `Notebooks/` directory contains the complete end-to-end experimental research pipeline, documenting how the anomaly detection models were formulated, trained, evaluated, and packaged:
+
+1. **`Notebooks/Isolation_Forest/Finance_model/`**:
+   - `01_data_preparation.ipynb`: Aggregates work-level records from raw sanction and disbursement tables, generating 12 core financial variance features (e.g., payment-to-sanction ratio, variance spread, tranche deviation).
+   - `02_financial_anomaly_model.ipynb`: Trains an ensemble `IsolationForest` (300 estimators) on historical baseline fiscal years (2023–2026), sets anomaly cutoff percentiles, and evaluates performance on 2026–27 test data.
+   - `03_model_export.ipynb`: Serializes the trained scikit-learn model (`isolation_forest_model.pkl`), threshold configuration (`risk_thresholds.json`), and metadata for backend deployment.
+
+2. **`Notebooks/Isolation_Forest/Payment_model/`**:
+   - `01.ipynb`: Analyzes transaction velocity, installment sequence intervals, and historical vendor concentration across 100,000+ disbursement records. Builds the payment anomaly model and missing value imputation pipeline (`payment_anomaly_imputer.pkl`).
+
+3. **`Notebooks/Execution & Risk_Score/`**:
+   - Evaluates physical execution rules (such as works marked physically completed with zero recorded disbursements, or projects exceeding sanction ceilings).
+   - Combines financial anomaly scores, payment sequence risk, and execution consistency flags into a unified, balanced **0–100 Composite Risk Score**.
 
 ---
 

@@ -39,3 +39,8 @@ backend/.env
 *.swo
 .DS_Store
 Thumbs.db
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+*.ipynb_checkpoints
+
