@@ -8,8 +8,17 @@ from backend.app.schemas.project import StateAnalytics, FinancialYearAnalytics
 
 router = APIRouter(prefix="/api", tags=["Analytics & Aggregate Metrics"])
 
+# In-memory caches for instant responses
+_STATES_CACHE = None
+_FY_CACHE = None
+_REASONS_CACHE = None
+
 @router.get("/states", response_model=List[StateAnalytics])
 def get_state_analytics(db: Session = Depends(get_db)):
+    global _STATES_CACHE
+    if _STATES_CACHE is not None:
+        return _STATES_CACHE
+
     results = db.query(
         MPLADSProject.state.label("state"),
         func.count(MPLADSProject.work_id).label("total_projects"),
@@ -43,10 +52,15 @@ def get_state_analytics(db: Session = Depends(get_db)):
                 very_high_risk=int(r.very_high_risk or 0)
             )
         )
-    return analytics
+    _STATES_CACHE = analytics
+    return _STATES_CACHE
 
 @router.get("/financial-years", response_model=List[FinancialYearAnalytics])
 def get_financial_year_analytics(db: Session = Depends(get_db)):
+    global _FY_CACHE
+    if _FY_CACHE is not None:
+        return _FY_CACHE
+
     results = db.query(
         MPLADSProject.financial_year.label("financial_year"),
         func.count(MPLADSProject.work_id).label("total_projects"),
@@ -74,10 +88,15 @@ def get_financial_year_analytics(db: Session = Depends(get_db)):
                 very_high_risk=int(r.very_high_risk or 0)
             )
         )
-    return analytics
+    _FY_CACHE = analytics
+    return _FY_CACHE
 
 @router.get("/risk-reasons")
 def get_risk_reasons(db: Session = Depends(get_db)):
+    global _REASONS_CACHE
+    if _REASONS_CACHE is not None:
+        return _REASONS_CACHE
+
     results = db.query(
         MPLADSProject.primary_risk_reason,
         func.count(MPLADSProject.work_id).label("count"),
@@ -85,7 +104,7 @@ def get_risk_reasons(db: Session = Depends(get_db)):
     ).group_by(MPLADSProject.primary_risk_reason).order_by(func.count(MPLADSProject.work_id).desc()).all()
 
     total = db.query(func.count(MPLADSProject.work_id)).scalar() or 1
-    return [
+    _REASONS_CACHE = [
         {
             "reason": r[0],
             "count": r[1],
@@ -94,3 +113,4 @@ def get_risk_reasons(db: Session = Depends(get_db)):
         }
         for r in results
     ]
+    return _REASONS_CACHE

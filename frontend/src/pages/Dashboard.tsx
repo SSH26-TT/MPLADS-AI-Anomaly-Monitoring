@@ -43,16 +43,19 @@ const RISK_COLORS = {
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProject }) => {
-  const [summary, setSummary] = useState<SystemSummary | null>(null);
+  const cachedSummary = api.getCachedSummary();
+  const cachedStates = api.getCachedStates() || [];
+
+  const [summary, setSummary] = useState<SystemSummary | null>(cachedSummary);
   const [topHighRisk, setTopHighRisk] = useState<Project[]>([]);
-  const [states, setStates] = useState<StateAnalytics[]>([]);
+  const [states, setStates] = useState<StateAnalytics[]>(cachedStates);
   const [selectedDonutState, setSelectedDonutState] = useState<string>('ALL');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!cachedSummary);
   const [error, setError] = useState<string | null>(null);
 
   const loadDashboardData = async () => {
     try {
-      setLoading(true);
+      if (!summary) setLoading(true);
       setError(null);
       const [summaryData, highRiskData, statesData] = await Promise.all([
         api.getSummary(),
@@ -64,7 +67,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
       setStates(statesData);
     } catch (err: any) {
       console.error('Failed to load dashboard data:', err);
-      setError('Unable to connect to backend server. Please ensure the backend is running.');
+      if (!summary) {
+        setError('Unable to connect to backend server. Please ensure the backend is running or give the cloud instance 20-30s to boot up.');
+      }
     } finally {
       setLoading(false);
     }
@@ -74,20 +79,26 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
     loadDashboardData();
   }, []);
 
-  if (loading) {
+  if (loading && !summary) {
     return (
-      <div style={{ padding: '40px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
-        <div style={{ fontSize: '18px', fontWeight: 600 }}>Loading MPLADS Monitoring Dashboard...</div>
-        <p style={{ fontSize: '13px', marginTop: '6px' }}>Fetching records and risk indicators...</p>
+      <div style={{ padding: '60px 20px', textAlign: 'center', color: 'var(--color-text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ width: '40px', height: '40px', border: '3px solid var(--color-border)', borderTopColor: 'var(--color-primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }} />
+        <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Loading MPLADS Monitoring Dashboard...</div>
+        <p style={{ fontSize: '13px', marginTop: '8px', color: 'var(--color-text-muted)' }}>
+          Fetching national dataset (98,755 projects across 36 States)...
+        </p>
+        <div style={{ marginTop: '16px', padding: '12px 16px', background: 'var(--color-surface)', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: '12px', color: 'var(--color-text-muted)' }}>
+          💡 <i>Tip: If this is the first visit after a period of inactivity, the free cloud backend (Render) may take ~15–20s to boot. Subsequent requests will load instantaneously.</i>
+        </div>
       </div>
     );
   }
 
-  if (error || !summary) {
+  if (!summary) {
     return (
-      <div style={{ padding: '40px', textAlign: 'center', color: '#DC2626' }}>
-        <div style={{ fontSize: '18px', fontWeight: 700 }}>Connection Error</div>
-        <p style={{ fontSize: '14px', color: '#475569', marginTop: '8px', marginBottom: '16px' }}>{error || 'No data received from backend.'}</p>
+      <div style={{ padding: '60px 20px', textAlign: 'center', color: '#DC2626', maxWidth: '500px', margin: '0 auto' }}>
+        <div style={{ fontSize: '18px', fontWeight: 700 }}>Connection Delay</div>
+        <p style={{ fontSize: '14px', color: '#475569', marginTop: '8px', marginBottom: '16px' }}>{error || 'Unable to load dashboard data.'}</p>
         <button className="btn btn-primary btn-sm" onClick={loadDashboardData}>Retry Connection</button>
       </div>
     );

@@ -7,8 +7,17 @@ from backend.app.schemas.project import SystemSummary, RiskComponentDistribution
 
 router = APIRouter(prefix="/api", tags=["Summary & Risk Engine Overview"])
 
+# In-memory caches for instant response times
+_SUMMARY_CACHE = None
+_RISK_DIST_CACHE = None
+_RISK_COMP_CACHE = None
+
 @router.get("/summary", response_model=SystemSummary)
 def get_system_summary(db: Session = Depends(get_db)):
+    global _SUMMARY_CACHE
+    if _SUMMARY_CACHE is not None:
+        return _SUMMARY_CACHE
+
     total = db.query(func.count(MPLADSProject.work_id)).scalar() or 0
 
     # Priorities
@@ -59,7 +68,7 @@ def get_system_summary(db: Session = Depends(get_db)):
         "Unavailable": sum(r[1] for r in payment_avail_rows if r[0] == 0)
     }
 
-    return SystemSummary(
+    _SUMMARY_CACHE = SystemSummary(
         total_projects=total,
         requiring_review=review_count,
         high_risk_projects=high_risk_count,
@@ -71,9 +80,14 @@ def get_system_summary(db: Session = Depends(get_db)):
         primary_risk_reason_distribution=reason_dist,
         payment_data_distribution=payment_dist
     )
+    return _SUMMARY_CACHE
 
 @router.get("/risk-distribution")
 def get_risk_distribution(db: Session = Depends(get_db)):
+    global _RISK_DIST_CACHE
+    if _RISK_DIST_CACHE is not None:
+        return _RISK_DIST_CACHE
+
     rows = db.query(MPLADSProject.risk_level, func.count(MPLADSProject.work_id))\
         .group_by(MPLADSProject.risk_level).all()
     total = db.query(func.count(MPLADSProject.work_id)).scalar() or 1
@@ -85,10 +99,15 @@ def get_risk_distribution(db: Session = Depends(get_db)):
             "count": count,
             "percentage": round((count / total) * 100, 2)
         })
-    return {"total": total, "distribution": dist}
+    _RISK_DIST_CACHE = {"total": total, "distribution": dist}
+    return _RISK_DIST_CACHE
 
 @router.get("/risk-components", response_model=RiskComponentDistribution)
 def get_risk_components(db: Session = Depends(get_db)):
+    global _RISK_COMP_CACHE
+    if _RISK_COMP_CACHE is not None:
+        return _RISK_COMP_CACHE
+
     financial_avg = db.query(func.avg(MPLADSProject.financial_risk_0_100)).scalar() or 0.0
     payment_avg = db.query(func.avg(MPLADSProject.payment_risk_0_100))\
         .filter(MPLADSProject.payment_data_available == 1).scalar() or 0.0
@@ -100,7 +119,7 @@ def get_risk_components(db: Session = Depends(get_db)):
     without_payment = db.query(func.count(MPLADSProject.work_id))\
         .filter(MPLADSProject.payment_data_available == 0).scalar() or 0
 
-    return RiskComponentDistribution(
+    _RISK_COMP_CACHE = RiskComponentDistribution(
         financial_risk_avg=round(float(financial_avg), 2),
         payment_risk_avg=round(float(payment_avg), 2),
         execution_risk_avg=round(float(execution_avg), 2),
@@ -108,3 +127,4 @@ def get_risk_components(db: Session = Depends(get_db)):
         with_payment_data_count=with_payment,
         without_payment_data_count=without_payment
     )
+    return _RISK_COMP_CACHE
