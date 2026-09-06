@@ -303,6 +303,36 @@ npm run dev -- --host 0.0.0.0 --port 5173
 
 ---
 
+## ☁️ Free Cloud Deployment (Render + Vercel)
+
+### Step 1: Deploy Backend to [Render.com](https://render.com) (Free)
+1. Log in to **[Render.com](https://render.com)** and click **New +** → **Web Service**.
+2. Connect your GitHub repository: `SSH26-TT/MPLADS-AI-Anomaly-Monitoring`.
+3. Configure the service settings:
+   - **Name**: `mplads-ai-backend`
+   - **Language / Runtime**: `Python 3`
+   - **Build Command**: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py`
+   - **Start Command**: `uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT`
+4. Click **Create Web Service**.
+5. Copy your live backend URL (e.g. `https://mplads-ai-backend.onrender.com`).
+
+---
+
+### Step 2: Deploy Frontend to [Vercel.com](https://vercel.com) (Free)
+1. Log in to **[Vercel.com](https://vercel.com)** and click **Add New...** → **Project**.
+2. Import repository: `SSH26-TT/MPLADS-AI-Anomaly-Monitoring`.
+3. Configure settings:
+   - **Root Directory**: Click *Edit* and select **`frontend`**.
+   - **Framework Preset**: `Vite`
+4. In **Environment Variables**, add:
+   - **Key**: `VITE_API_URL`
+   - **Value**: `https://mplads-ai-backend.onrender.com` *(your Render backend URL)*
+5. Click **Deploy**.
+6. Your platform will be live with a permanent HTTPS domain!
+
+---
+
+
 ## 📁 Repository Structure
 
 ```

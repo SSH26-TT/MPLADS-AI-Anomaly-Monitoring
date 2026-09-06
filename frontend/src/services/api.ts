@@ -9,7 +9,9 @@ import {
   ProjectFilters
 } from '../types';
 
-const API_BASE = '/api';
+const API_HOST = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/$/, '') : '';
+const API_BASE = `${API_HOST}/api`;
+
 
 export const api = {
   async getSummary(): Promise<SystemSummary> {
