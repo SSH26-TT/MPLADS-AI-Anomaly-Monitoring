@@ -5,21 +5,33 @@
 
 <br/>
 
-[![Live Web App](https://img.shields.io/badge/Live%20Dashboard-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mplads-ai-anomaly-monitoring.vercel.app/)
-[![Live Backend](https://img.shields.io/badge/Live%20Backend-Render-005A36?style=for-the-badge&logo=render&logoColor=white)](https://mplads-ai-anomaly-monitoring.onrender.com/)
-[![Interactive Swagger API Docs](https://img.shields.io/badge/Swagger%20API%20Docs-Live-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
-[![React 18](https://img.shields.io/badge/Frontend-React%2018%20%7C%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.10+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Scikit-Learn](https://img.shields.io/badge/ML%20Engine-Dual%20Isolation%20Forest-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
-[![Database](https://img.shields.io/badge/Database-SQLite%20%2F%20PostgreSQL-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![Status](https://img.shields.io/badge/Coverage-98%2C755%20Projects%20%7C%2036%20States-059669?style=for-the-badge&logo=shieldcheck&logoColor=white)](#-national-scope)
+<!-- Primary Deployment Badges -->
+[![Live Web Dashboard](https://img.shields.io/badge/Live_Dashboard-Vercel_App-2563EB?style=for-the-badge&logo=vercel&logoColor=white)](https://mplads-ai-anomaly-monitoring.vercel.app/)
+&nbsp;
+[![Backend API Service](https://img.shields.io/badge/Backend_API-Render_Cloud-059669?style=for-the-badge&logo=render&logoColor=white)](https://mplads-ai-anomaly-monitoring.onrender.com/)
+&nbsp;
+[![Interactive API Docs](https://img.shields.io/badge/Swagger_API_Docs-Live_Interactive-7C3AED?style=for-the-badge&logo=swagger&logoColor=white)](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
 
 <br/>
 
-### 🌐 **Live Cloud Deployment**:
-**🖥️ Live Web Dashboard**: [`https://mplads-ai-anomaly-monitoring.vercel.app`](https://mplads-ai-anomaly-monitoring.vercel.app/)  
-**⚡ Backend API Service**: [`https://mplads-ai-anomaly-monitoring.onrender.com`](https://mplads-ai-anomaly-monitoring.onrender.com/)  
-**📖 Interactive Swagger API Docs**: [`https://mplads-ai-anomaly-monitoring.onrender.com/docs`](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
+<!-- Tech Stack & Coverage Badges -->
+[![Frontend](https://img.shields.io/badge/Frontend-React_18_%7C_TypeScript-0284C7?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
+&nbsp;
+[![Backend](https://img.shields.io/badge/Backend-FastAPI_%7C_Python_3.10+-0D9488?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+&nbsp;
+[![ML Engine](https://img.shields.io/badge/ML_Engine-Dual_Isolation_Forest-D97706?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+&nbsp;
+[![Database](https://img.shields.io/badge/Database-SQLite_%2F_PostgreSQL-475569?style=flat-square&logo=postgresql&logoColor=white)](https://www.sqlite.org/)
+&nbsp;
+[![National Scope](https://img.shields.io/badge/Coverage-98%2C755_Projects_%7C_36_States-6366F1?style=flat-square&logo=databricks&logoColor=white)](#-the-rising-challenge--our-ai-solution)
+
+<br/><br/>
+
+| 🌐 Service | 🔗 Live Access URL | ⚡ Operational Status |
+| :--- | :--- | :---: |
+| 🖥️ **Interactive Decision Portal** | [**`mplads-ai-anomaly-monitoring.vercel.app`**](https://mplads-ai-anomaly-monitoring.vercel.app/) | `🟢 Live (Production)` |
+| ⚡ **FastAPI REST Service** | [**`mplads-ai-anomaly-monitoring.onrender.com`**](https://mplads-ai-anomaly-monitoring.onrender.com/) | `🟢 Live (Production)` |
+| 📖 **Interactive Swagger Documentation** | [**`mplads-ai-anomaly-monitoring.onrender.com/docs`**](https://mplads-ai-anomaly-monitoring.onrender.com/docs) | `🟢 Live (Interactive)` |
 
 <br/>
 
