@@ -1,0 +1,54 @@
+{
+    "project": "MPLADS AI-Powered Anomaly Detection",
+    "risk_engine_version": "1.0",
+    "total_projects_scored": 98755,
+    "components": {
+        "financial": {
+            "type": "IsolationForest",
+            "risk_scale": "0-100",
+            "weight": 0.5,
+            "purpose": "Detect financially unusual works"
+        },
+        "payment": {
+            "type": "IsolationForest",
+            "risk_scale": "0-100",
+            "weight": 0.3,
+            "weight_when_payment_unavailable": 0,
+            "purpose": "Detect unusual payment patterns"
+        },
+        "execution": {
+            "type": "Rule-based consistency checks",
+            "risk_scale": "0-100",
+            "weight": 0.2,
+            "purpose": "Detect execution/payment consistency issues"
+        }
+    },
+    "combined_risk_method": {
+        "with_payment_data": "0.50 * financial_risk + 0.30 * payment_risk + 0.20 * execution_risk",
+        "without_payment_data": "0.625 * financial_risk + 0.375 * execution_risk",
+        "score_range": "0-100"
+    },
+    "risk_levels": {
+        "LOW": "0-39.99",
+        "MEDIUM": "40-59.99",
+        "HIGH": "60-79.99",
+        "VERY_HIGH": "80-100"
+    },
+    "investigation_priority": {
+        "NORMAL": "No major risk signal",
+        "REVIEW": "Moderate risk or consistency/payment anomaly",
+        "HIGH_REVIEW": "High combined risk",
+        "CRITICAL_REVIEW": "Very high combined risk"
+    },
+    "execution_rules": {
+        "completed_without_payment": "Completion date exists and payment count is zero",
+        "payment_exceeds_sanction": "Total disbursed amount exceeds sanction amount"
+    },
+    "important_interpretation": "An anomaly or high risk score indicates an unusual pattern requiring review. It does not by itself prove fraud, corruption, or wrongdoing.",
+    "final_output": {
+        "file": "mplads_final_master_risk.csv",
+        "rows": 98755,
+        "columns": 21
+    },
+    "status": "FINAL / FROZEN"
+}

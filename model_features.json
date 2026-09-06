@@ -1,0 +1,14 @@
+[
+    "sanction_amount",
+    "total_disbursed_amount",
+    "payment_count",
+    "in_progress_payment_count",
+    "in_progress_payment_amount",
+    "payment_to_sanction_ratio",
+    "payment_minus_sanction_amount",
+    "average_payment_amount",
+    "maximum_payment_amount",
+    "minimum_payment_amount",
+    "payment_amount_std",
+    "payment_duration_days"
+]

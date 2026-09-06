@@ -1,0 +1,33 @@
+consent_id,house,mp_key,calamity_type,calamity_name,consent_date,consent_amount
+CAL_LS_0001,Lok Sabha,LS_GURJEET_SINGH_AUJLA,National Calamity,Flood 2025 in Punjab,2025-12-07,7067400.0
+CAL_LS_0002,Lok Sabha,LS_GURMEET_SINGH_MEET_HAYER,National Calamity,Flood 2025 in Punjab,2025-11-03,7500000.0
+CAL_LS_0003,Lok Sabha,LS_JUAL_ORAM,National Calamity,Flood 2025 in Punjab,2025-10-10,10000000.0
+CAL_LS_0004,Lok Sabha,LS_KRISHNA_PRASAD_TENNETI,National Calamity,Andhra Pradesh rainfall and consequent floods - 2024,2025-03-26,1000000.0
+CAL_LS_0005,Lok Sabha,LS_SHAFI_PARAMBIL,National Calamity,Meppadi landslides 2024,2025-03-02,2500000.0
+CAL_LS_0006,Lok Sabha,LS_SHAFI_PARAMBIL,State Calamity,Vilangad Landslides 2024,2025-03-01,2500000.0
+CAL_LS_0007,Lok Sabha,LS_C_N_MANJUNATH,National Calamity,Meppadi landslides 2024,2025-02-17,500000.0
+CAL_LS_0008,Lok Sabha,LS_ANDIMUTHU_RAJA,National Calamity,Meppadi landslides 2024,2025-02-05,2500000.0
+CAL_LS_0009,Lok Sabha,LS_NK_PREMACHANDRAN,State Calamity,Wayanad landslides 2024,2024-12-07,1000000.0
+CAL_LS_0010,Lok Sabha,LS_NK_PREMACHANDRAN,State Calamity,Vilangad Landslides 2024,2024-12-07,1000000.0
+CAL_LS_0011,Lok Sabha,LS_K_RADHAKRISHNAN,State Calamity,Wayanad landslides 2024,2024-12-04,2500000.0
+CAL_LS_0012,Lok Sabha,LS_BIPLAB_KUMAR_DEB,State Calamity,Natural Calamity Affected Area,2024-09-03,2500000.0
+CAL_RS_0001,Rajya Sabha,RS_HARDEEP_SINGH_PURI,National Calamity,Flood 2025 in Punjab,2025-11-17,10000000.0
+CAL_RS_0002,Rajya Sabha,RS_ASHOK_KUMAR_MITTAL,National Calamity,Flood 2025 in Punjab,2025-11-04,10000000.0
+CAL_RS_0003,Rajya Sabha,RS_NARAIN_DASS_GUPTA,National Calamity,Flood 2025 in Punjab,2025-11-03,7500000.0
+CAL_RS_0004,Rajya Sabha,RS_SANJAY_SINGH,National Calamity,Flood 2025 in Punjab,2025-11-03,10000000.0
+CAL_RS_0005,Rajya Sabha,RS_HARBHAJAN_SINGH,National Calamity,Flood 2025 in Punjab,2025-11-03,10000000.0
+CAL_RS_0006,Rajya Sabha,RS_SANDEEP_KUMAR_PATHAK,National Calamity,Flood 2025 in Punjab,2025-10-29,10000000.0
+CAL_RS_0007,Rajya Sabha,RS_PARMAR_JASHVANTSINH_SALAMSINH,National Calamity,Flood 2025 in Punjab,2025-10-07,2500000.0
+CAL_RS_0008,Rajya Sabha,RS_NARAIN_DASS_GUPTA,National Calamity,Flood 2025 in Punjab,2025-10-06,2500000.0
+CAL_RS_0009,Rajya Sabha,RS_VIKRAMJIT_SINGH_SAHNEY,National Calamity,Flood 2025 in Punjab,2025-09-19,10000000.0
+CAL_RS_0010,Rajya Sabha,RS_P_P_SUNEER,National Calamity,Meppadi landslides 2024,2025-04-21,7500000.0
+CAL_RS_0011,Rajya Sabha,RS_JOHN_BRITTAS,National Calamity,Meppadi landslides 2024,2025-02-17,7500000.0
+CAL_RS_0012,Rajya Sabha,RS_P_P_SUNEER,National Calamity,Meppadi landslides 2024,2025-02-03,2500000.0
+CAL_RS_0013,Rajya Sabha,RS_ABDUL_WAHAB,State Calamity,Vilangad Landslides 2024,2024-12-08,1000000.0
+CAL_RS_0014,Rajya Sabha,RS_P_T_USHA,State Calamity,Wayanad landslides 2024,2024-12-07,500000.0
+CAL_RS_0015,Rajya Sabha,RS_P_T_USHA,State Calamity,Vilangad Landslides 2024,2024-12-07,500000.0
+CAL_RS_0016,Rajya Sabha,RS_V_SIVADASAN,State Calamity,Wayanad landslides 2024,2024-12-04,2500000.0
+CAL_RS_0017,Rajya Sabha,RS_A_A_RAHIM,State Calamity,Wayanad landslides 2024,2024-12-04,2500000.0
+CAL_RS_0018,Rajya Sabha,RS_JOSE_K_MANI,State Calamity,Wayanad landslides 2024,2024-11-25,2500000.0
+CAL_RS_0019,Rajya Sabha,RS_SANDOSH_KUMAR_P,State Calamity,Wayanad landslides 2024,2024-10-17,2500000.0
+CAL_RS_0020,Rajya Sabha,RS_JOHN_BRITTAS,State Calamity,Wayanad landslides 2024,2024-09-10,2500000.0
