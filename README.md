@@ -307,6 +307,26 @@ npm run dev -- --host 0.0.0.0 --port 5173
 
 ```
 MPLADS-AI-Anomaly-Monitoring/
+├── 📂 "Data & Models"/
+│   ├── 📄 mplads_final_master_risk.csv    # Master precomputed dataset (98,755 records)
+│   ├── 📄 work_master.csv                 # Core administrative project registry
+│   ├── 📄 sanction_master.csv             # Sanction approval amounts & dates
+│   ├── 📄 payment_master.csv              # Multi-installment disbursement logs
+│   ├── 📄 completion_master.csv           # Physical completion records
+│   ├── 📄 mp_master.csv                   # Parliamentary representative profiles
+│   ├── 📄 mp_allocation_master.csv        # Constituency allocation limits
+│   ├── 📄 recommendation_master.csv       # MP work recommendations
+│   ├── 📄 calamity_consent_master.csv     # Calamity relief authorizations
+│   ├── 📄 isolation_forest_model.pkl      # Trained Work-grain Financial model
+│   ├── 📄 payment_anomaly_model.pkl       # Trained Transaction-grain Payment model
+│   ├── 📄 payment_anomaly_imputer.pkl     # Payment feature imputer artifact
+│   ├── 📄 risk_engine_metadata.json       # Frozen risk engine configuration
+│   ├── 📄 model_metadata.json             # Financial Isolation Forest specs
+│   ├── 📄 payment_anomaly_metadata.json   # Payment Isolation Forest specs
+│   ├── 📄 model_features.json             # 12 Financial feature definitions
+│   ├── 📄 payment_anomaly_features.json   # 12 Payment feature definitions
+│   ├── 📄 risk_thresholds.json            # Classification cutoff thresholds
+│   └── 📄 payment_anomaly_thresholds.json # Transaction anomaly thresholds
 ├── 📂 backend/
 │   ├── 📂 app/
 │   │   ├── 📂 models/           # SQLAlchemy ORM models (MPLADSProject)
@@ -329,12 +349,6 @@ MPLADS-AI-Anomaly-Monitoring/
 │   │   └── 📄 index.css         # Modern design tokens, utilities & responsive styles
 │   ├── 📄 package.json          # Node dependencies
 │   └── 📄 vite.config.ts        # Vite configuration
-├── 📄 mplads_final_master_risk.csv # Master precomputed dataset (98,755 records)
-├── 📄 risk_engine_metadata.json # Frozen risk engine configuration
-├── 📄 model_metadata.json       # Work-grain Isolation Forest metadata
-├── 📄 payment_anomaly_metadata.json # Payment Isolation Forest metadata
-├── 📄 model_features.json       # Financial features specification
-├── 📄 payment_anomaly_features.json # Payment features specification
 ├── 📄 .gitignore                # Git exclusions
 └── 📄 README.md                 # Project documentation
 ```

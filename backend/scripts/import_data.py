@@ -14,15 +14,20 @@ from backend.app.models.project import MPLADSProject
 
 def find_csv_path():
     candidates = [
+        os.path.join(BASE_DIR, "Data & Models", "mplads_final_master_risk.csv"),
         os.path.join(BASE_DIR, "mplads_final_master_risk.csv"),
+        os.path.join(os.path.dirname(BASE_DIR), "Data & Models", "mplads_final_master_risk.csv"),
         os.path.join(os.path.dirname(BASE_DIR), "mplads_final_master_risk.csv"),
+        "Data & Models/mplads_final_master_risk.csv",
         "mplads_final_master_risk.csv",
+        "../Data & Models/mplads_final_master_risk.csv",
         "../mplads_final_master_risk.csv",
     ]
     for c in candidates:
         if os.path.exists(c):
             return c
     raise FileNotFoundError("Could not locate mplads_final_master_risk.csv in expected locations.")
+
 
 def import_csv_to_db():
     start_time = time.time()
