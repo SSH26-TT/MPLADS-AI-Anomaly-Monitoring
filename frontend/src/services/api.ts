@@ -16,7 +16,7 @@ const API_BASE = `${API_HOST}/api`;
 const cache = {
   get<T>(key: string): T | null {
     try {
-      const item = localStorage.getItem(`mplads_cache_v4_${key}`);
+      const item = localStorage.getItem(`mplads_cache_v5_${key}`);
       return item ? JSON.parse(item) : null;
     } catch {
       return null;
@@ -24,7 +24,7 @@ const cache = {
   },
   set(key: string, data: any): void {
     try {
-      localStorage.setItem(`mplads_cache_v4_${key}`, JSON.stringify(data));
+      localStorage.setItem(`mplads_cache_v5_${key}`, JSON.stringify(data));
     } catch {}
   }
 };
