@@ -154,7 +154,6 @@ export const Projects: React.FC<ProjectsProps> = ({
         <div className="page-title-group">
           <span className="page-badge-tag">Registry & Monitoring</span>
           <h2>All Monitored MPLADS Projects</h2>
-          <p>Searchable directory of 98,755 works with calculated risk levels</p>
         </div>
       </div>
 

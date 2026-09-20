@@ -60,11 +60,10 @@ export const FinancialYearAnalytics: React.FC = () => {
         <div className="page-title-group">
           <span className="page-badge-tag">Temporal Pattern Tracking</span>
           <h2>Financial Year Analytics</h2>
-          <p>Multi-year evolution of monitored works, risk policy bands, and review indicators</p>
         </div>
       </div>
 
-      {/* Yearly KPI Overview Cards */}
+      {/* Yearly KPI Overview Cards (Clean Title & Number Only) */}
       <div className="stat-grid-row">
         {years.map((y) => (
           <div key={y.financial_year} className="stat-card">
@@ -75,16 +74,6 @@ export const FinancialYearAnalytics: React.FC = () => {
               </div>
             </div>
             <div className="stat-value">{y.total_projects.toLocaleString()}</div>
-            <div className="stat-footer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '4px', marginTop: '8px' }}>
-              <div style={{ display: 'flex', gap: '8px', fontSize: '11.5px' }}>
-                <span style={{ color: '#DC2626', fontWeight: 600 }}>{y.high_risk_projects} High Risk</span>
-                <span>•</span>
-                <span style={{ color: '#D97706', fontWeight: 600 }}>{y.requiring_review} Review</span>
-              </div>
-              <div style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
-                Avg Risk: <strong>{y.avg_final_risk.toFixed(1)}</strong> / 100
-              </div>
-            </div>
           </div>
         ))}
       </div>
@@ -96,7 +85,6 @@ export const FinancialYearAnalytics: React.FC = () => {
           <div className="card-header">
             <div>
               <h3>Workload & Review Demand by Year</h3>
-              <p>Total recorded projects vs projects flagged for human review</p>
             </div>
           </div>
           <div style={{ height: '260px' }}>
@@ -213,7 +201,6 @@ export const FinancialYearAnalytics: React.FC = () => {
         <div className="card-header">
           <div>
             <h3>Financial Year Statistical Matrix</h3>
-            <p>Annual breakdown of policy risk classifications</p>
           </div>
         </div>
 

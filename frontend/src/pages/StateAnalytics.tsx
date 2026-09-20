@@ -126,7 +126,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <div className="page-title-group">
           <span className="page-badge-tag">Geographical Risk Analysis</span>
           <h2>State Wise Analysis</h2>
-          <p>Distribution of MPLADS works, average risk scores, and review priorities across states</p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -147,12 +146,11 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         </div>
       </div>
 
-      {/* Selected State Metrics */}
+      {/* Selected State Metrics (Clean Title & Number Only) */}
       <div className="stat-grid-row">
         <StatCard
           title={`${activeState} - Total Works`}
           value={currentStateMetrics.total_projects}
-          subtitle={`Ranked #${states.findIndex(s => s.state === activeState) + 1} by volume`}
           icon={<FolderGit2 size={20} />}
           iconBg="var(--color-primary-bg)"
           iconColor="var(--color-primary)"
@@ -161,7 +159,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <StatCard
           title="Projects Requiring Review"
           value={currentStateMetrics.requiring_review}
-          subtitle={`${((currentStateMetrics.requiring_review / currentStateMetrics.total_projects) * 100).toFixed(1)}% of state works`}
           icon={<AlertTriangle size={20} />}
           iconBg="var(--risk-med-bg)"
           iconColor="var(--risk-med-text)"
@@ -170,7 +167,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <StatCard
           title="High-Risk Projects"
           value={currentStateMetrics.high_risk_projects}
-          subtitle="Priority Action Cases"
           icon={<AlertOctagon size={20} />}
           iconBg="var(--risk-high-bg)"
           iconColor="var(--risk-high-text)"
@@ -179,7 +175,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <StatCard
           title="Average Risk Score"
           value={currentStateMetrics.avg_final_risk.toFixed(1)}
-          subtitle="State Average"
           icon={<TrendingUp size={20} />}
           iconBg="var(--color-bg-input)"
           iconColor="#2563EB"
@@ -193,7 +188,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
           <div className="card-header">
             <div>
               <h3>{activeState} - Risk Distribution</h3>
-              <p>Breakdown across policy risk bands in this state</p>
             </div>
           </div>
           <div style={{ height: '230px', position: 'relative' }}>
@@ -239,7 +233,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
           <div className="card-header">
             <div>
               <h3>Top 10 States by Workload</h3>
-              <p>Comparative work count and prioritized review cases</p>
             </div>
           </div>
           <div style={{ height: '260px' }}>
@@ -308,7 +301,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <div className="card-header">
           <div>
             <h3>Top Prioritized Works in {activeState}</h3>
-            <p>Highest risk projects identified in this state</p>
           </div>
           <button
             className="btn btn-outline btn-sm"
@@ -393,7 +385,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <div className="card-header">
           <div>
             <h3>All States & UTs Risk Overview</h3>
-            <p>Comparative metrics across all 36 administrative jurisdictions</p>
           </div>
         </div>
 
