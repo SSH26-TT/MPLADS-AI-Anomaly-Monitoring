@@ -6,7 +6,8 @@ import {
   CreditCard, 
   Layers, 
   ArrowRight, 
-  TrendingUp
+  TrendingUp,
+  ShieldAlert
 } from 'lucide-react';
 import { 
   PieChart, 
@@ -25,21 +26,18 @@ import { SystemSummary, Project, StateAnalytics } from '../types';
 import { StatCard } from '../components/StatCard';
 import { RiskBadge } from '../components/RiskBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
-import { DisclaimerBanner } from '../components/DisclaimerBanner';
 import { getScoreColor } from '../utils/colors';
-import { ScoreLegend } from '../components/ScoreLegend';
 
 interface DashboardProps {
   onNavigate: (tab: string, filterParams?: any) => void;
   onSelectProject: (p: Project) => void;
 }
 
-
 const RISK_COLORS = {
   LOW: '#059669',
   MEDIUM: '#F59E0B',
   HIGH: '#DC2626',
-  VERY_HIGH: '#991B1B'
+  VERY_HIGH: '#7F1D1D'
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProject }) => {
@@ -47,9 +45,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
   const cachedStates = api.getCachedStates() || [];
 
   const [summary, setSummary] = useState<SystemSummary | null>(cachedSummary);
-  const [topHighRisk, setTopHighRisk] = useState<Project[]>([]);
+  const [recentWorks, setRecentWorks] = useState<Project[]>([]);
   const [states, setStates] = useState<StateAnalytics[]>(cachedStates);
   const [selectedDonutState, setSelectedDonutState] = useState<string>('ALL');
+  const [hoveredSlice, setHoveredSlice] = useState<any>(null);
   const [loading, setLoading] = useState(!cachedSummary);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,18 +56,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
     try {
       if (!summary) setLoading(true);
       setError(null);
-      const [summaryData, highRiskData, statesData] = await Promise.all([
+      const [summaryData, recentMixData, statesData] = await Promise.all([
         api.getSummary(),
-        api.getHighRiskWorks(1, 6),
+        api.getRecentMix().catch(async () => {
+          const fallback = await api.getWorks({ page: 1, page_size: 8 });
+          return fallback.items;
+        }),
         api.getStates()
       ]);
       setSummary(summaryData);
-      setTopHighRisk(highRiskData.items);
+      setRecentWorks(recentMixData);
       setStates(statesData);
     } catch (err: any) {
       console.error('Failed to load dashboard data:', err);
       if (!summary) {
-        setError('Unable to connect to backend server. Please ensure the backend is running or give the cloud instance 20-30s to boot up.');
+        setError('Unable to connect to backend server. Please ensure the backend is running.');
       }
     } finally {
       setLoading(false);
@@ -84,7 +86,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
       <div style={{ padding: '60px 20px', textAlign: 'center', color: 'var(--color-text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
         <div style={{ width: '40px', height: '40px', border: '3px solid var(--color-border)', borderTopColor: 'var(--color-primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }} />
         <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Loading MPLADS Monitoring Dashboard...</div>
-        <p style={{ fontSize: '13px', marginTop: '6px', color: 'var(--color-text-muted)' }}>Fetching records and risk indicators...</p>
+        <p style={{ fontSize: '13px', marginTop: '6px', color: 'var(--color-text-muted)' }}>Fetching national records and portfolio indicators...</p>
       </div>
     );
   }
@@ -101,9 +103,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
 
   // Calculate dynamic Donut data based on selected state in the box
   let currentDonutTotal = summary.total_projects;
-  let currentLow = summary.risk_distribution.LOW;
-  let currentMed = summary.risk_distribution.MEDIUM;
-  let currentHigh = summary.risk_distribution.HIGH;
+  let currentLow = summary.risk_distribution.LOW || 0;
+  let currentMed = summary.risk_distribution.MEDIUM || 0;
+  let currentHigh = summary.risk_distribution.HIGH || 0;
+  let currentVeryHigh = summary.risk_distribution.VERY_HIGH || 0;
   let donutTitle = 'National – Risk Distribution';
 
   if (selectedDonutState !== 'ALL') {
@@ -113,6 +116,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
       currentLow = matchedState.low_risk;
       currentMed = matchedState.medium_risk;
       currentHigh = matchedState.high_risk;
+      currentVeryHigh = matchedState.very_high_risk || 0;
       donutTitle = `${matchedState.state} – Risk Distribution`;
     }
   }
@@ -120,7 +124,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
   const dynamicPieData = [
     { name: 'Low Risk', value: currentLow, color: RISK_COLORS.LOW, key: 'LOW' },
     { name: 'Medium Risk', value: currentMed, color: RISK_COLORS.MEDIUM, key: 'MEDIUM' },
-    { name: 'High Risk', value: currentHigh, color: RISK_COLORS.HIGH, key: 'HIGH' }
+    { name: 'High Risk', value: currentHigh, color: RISK_COLORS.HIGH, key: 'HIGH' },
+    ...(currentVeryHigh > 0 ? [{ name: 'Very High Risk', value: currentVeryHigh, color: RISK_COLORS.VERY_HIGH, key: 'VERY_HIGH' }] : [])
   ];
 
   // Top 5 States by project count for Bar Chart
@@ -133,14 +138,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
 
   return (
     <div>
-      <DisclaimerBanner />
-
       {/* Page Title */}
       <div className="page-title-row">
         <div className="page-title-group">
           <span className="page-badge-tag">National Overview</span>
           <h2>MPLADS Monitoring Dashboard</h2>
-          <p>Automated risk monitoring and review prioritization for 98,755 recorded projects</p>
         </div>
         <div>
           <button 
@@ -153,108 +155,146 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
         </div>
       </div>
 
-      {/* Top 4 KPI Cards */}
+      {/* Top 4 KPI Cards (Clean Title & Number Only) */}
       <div className="stat-grid-row">
-        <StatCard
-          title="Total Monitored Works"
-          value={summary.total_projects}
-          subtitle="All recorded projects"
-          icon={<FolderGit2 size={20} />}
-          iconBg="var(--color-primary-bg)"
-          iconColor="var(--color-primary)"
-          tag="National"
-          tagBg="var(--color-primary-bg)"
-          tagColor="var(--color-primary)"
-        />
+        <div 
+          onClick={() => onNavigate('projects', { risk_level: 'ALL', investigation_priority: 'ALL' })}
+          style={{ cursor: 'pointer' }}
+          title="Click to view all monitored works"
+        >
+          <StatCard
+            title="Total Monitored Works"
+            value={summary.total_projects}
+            icon={<FolderGit2 size={18} />}
+            iconBg="var(--color-primary-bg)"
+            iconColor="var(--color-primary)"
+          />
+        </div>
 
-        <StatCard
-          title="Projects Requiring Review"
-          value={summary.requiring_review}
-          subtitle="Prioritized for verification"
-          icon={<AlertTriangle size={20} />}
-          iconBg="var(--risk-med-bg)"
-          iconColor="var(--risk-med-text)"
-          tag={`${((summary.requiring_review / summary.total_projects) * 100).toFixed(1)}%`}
-          tagBg="var(--risk-med-bg)"
-          tagColor="var(--risk-med-text)"
-        />
+        <div 
+          onClick={() => onNavigate('projects', { investigation_priority: 'REVIEW' })}
+          style={{ cursor: 'pointer' }}
+          title="Click to view works requiring review"
+        >
+          <StatCard
+            title="Projects Requiring Review"
+            value={summary.requiring_review}
+            icon={<AlertTriangle size={18} />}
+            iconBg="var(--risk-med-bg)"
+            iconColor="var(--risk-med-text)"
+          />
+        </div>
 
-        <StatCard
-          title="Payment Anomaly Signals"
-          value={summary.payment_anomalies}
-          subtitle="Disbursement inconsistencies"
-          icon={<CreditCard size={20} />}
-          iconBg="var(--color-bg-input)"
-          iconColor="#2563EB"
-          tag="Financial Track"
-          tagBg="var(--color-bg-input)"
-          tagColor="#2563EB"
-        />
+        <div 
+          onClick={() => onNavigate('projects', { payment_data_available: '1' })}
+          style={{ cursor: 'pointer' }}
+          title="Click to filter projects with payment tracking"
+        >
+          <StatCard
+            title="Payment Anomaly Signals"
+            value={summary.payment_anomalies}
+            icon={<CreditCard size={18} />}
+            iconBg="var(--color-bg-input)"
+            iconColor="#2563EB"
+          />
+        </div>
 
-        <StatCard
-          title="Execution Discrepancies"
-          value={summary.execution_consistency_issues}
-          subtitle="Zero payment or sanction variance"
-          icon={<Layers size={20} />}
-          iconBg="var(--risk-high-bg)"
-          iconColor="var(--risk-high-text)"
-          tag="Audit Check"
-          tagBg="var(--risk-high-bg)"
-          tagColor="var(--risk-high-text)"
-        />
+        <div 
+          onClick={() => onNavigate('projects', { risk_level: 'HIGH' })}
+          style={{ cursor: 'pointer' }}
+          title="Click to view schedule & execution alerts"
+        >
+          <StatCard
+            title="Schedule & Execution Issues"
+            value={summary.execution_consistency_issues}
+            icon={<Layers size={18} />}
+            iconBg="var(--risk-high-bg)"
+            iconColor="var(--risk-high-text)"
+          />
+        </div>
       </div>
 
-      {/* Risk Level Distribution Banner Cards */}
+      {/* 4-Tier Risk Distribution Banner Cards (Clean Title & Number Only) */}
       <div className="risk-stat-grid">
-        <div className="risk-kpi-card high">
+        {/* Very High Risk */}
+        <div 
+          className="risk-kpi-card" 
+          onClick={() => onNavigate('projects', { risk_level: 'VERY_HIGH' })}
+          style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#991B1B', cursor: 'pointer' }}
+          title="Click to view all Very High Risk projects in All Works"
+        >
+          <div className="risk-kpi-icon" style={{ background: '#FEE2E2', color: '#991B1B' }}>
+            <ShieldAlert size={18} />
+          </div>
+          <div className="risk-kpi-info">
+            <h4 style={{ color: '#991B1B' }}>Very High Risk</h4>
+            <div className="val" style={{ color: '#7F1D1D' }}>{(summary.risk_distribution.VERY_HIGH || 0).toLocaleString()}</div>
+          </div>
+        </div>
+
+        {/* High Risk */}
+        <div 
+          className="risk-kpi-card high"
+          onClick={() => onNavigate('projects', { risk_level: 'HIGH' })}
+          style={{ cursor: 'pointer' }}
+          title="Click to view all High-Risk projects in All Works"
+        >
           <div className="risk-kpi-icon">
-            <AlertOctagon size={24} />
+            <AlertOctagon size={18} />
           </div>
           <div className="risk-kpi-info">
             <h4>High-Risk Works</h4>
-            <div className="val">{summary.risk_distribution.HIGH.toLocaleString()}</div>
-            <p>Score 60–100 • Requires priority verification</p>
+            <div className="val">{(summary.risk_distribution.HIGH || 0).toLocaleString()}</div>
           </div>
         </div>
 
-        <div className="risk-kpi-card medium">
+        {/* Medium Risk */}
+        <div 
+          className="risk-kpi-card medium"
+          onClick={() => onNavigate('projects', { risk_level: 'MEDIUM' })}
+          style={{ cursor: 'pointer' }}
+          title="Click to view all Medium-Risk projects in All Works"
+        >
           <div className="risk-kpi-icon">
-            <AlertTriangle size={24} />
+            <AlertTriangle size={18} />
           </div>
           <div className="risk-kpi-info">
             <h4>Medium-Risk Works</h4>
-            <div className="val">{summary.risk_distribution.MEDIUM.toLocaleString()}</div>
-            <p>Score 40–59.99 • Standard close monitoring</p>
+            <div className="val">{(summary.risk_distribution.MEDIUM || 0).toLocaleString()}</div>
           </div>
         </div>
 
-        <div className="risk-kpi-card low">
+        {/* Low Risk */}
+        <div 
+          className="risk-kpi-card low"
+          onClick={() => onNavigate('projects', { risk_level: 'LOW' })}
+          style={{ cursor: 'pointer' }}
+          title="Click to view all Low-Risk projects in All Works"
+        >
           <div className="risk-kpi-icon">
-            <TrendingUp size={24} />
+            <TrendingUp size={18} />
           </div>
           <div className="risk-kpi-info">
             <h4>Low-Risk Works</h4>
-            <div className="val">{summary.risk_distribution.LOW.toLocaleString()}</div>
-            <p>Score 0–39.99 • Routine progress tracking</p>
+            <div className="val">{(summary.risk_distribution.LOW || 0).toLocaleString()}</div>
           </div>
         </div>
       </div>
 
-      {/* Charts Section */}
+      {/* Charts Section: Equal Height & Compact */}
       <div className="charts-grid-2">
-        {/* Risk Distribution Donut Chart with Inline State Selector */}
+        {/* Risk Distribution Donut Chart with Side-by-Side 2x2 Labels (2 Left, 2 Right) */}
         <div className="card">
           <div className="card-header">
             <div>
               <h3>{donutTitle}</h3>
-              <p>Breakdown across policy risk bands in selected scope</p>
             </div>
             {/* Inline State Selector inside the Box */}
             <select
               value={selectedDonutState}
               onChange={(e) => setSelectedDonutState(e.target.value)}
               className="select-control"
-              style={{ padding: '6px 12px', fontSize: '12.5px', fontWeight: 600, minWidth: '160px' }}
+              style={{ padding: '4px 10px', fontSize: '12px', fontWeight: 600, minWidth: '150px' }}
             >
               <option value="ALL">All India (National)</option>
               {states.map(s => (
@@ -262,99 +302,181 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
               ))}
             </select>
           </div>
- 
-           <div style={{ height: '240px', position: 'relative' }}>
-             <ResponsiveContainer width="100%" height="100%">
-               <PieChart>
-                 <Pie
-                   data={dynamicPieData}
-                   cx="50%"
-                   cy="50%"
-                   innerRadius={65}
-                   outerRadius={95}
-                   paddingAngle={3}
-                   dataKey="value"
-                   isAnimationActive={false}
-                 >
-                   {dynamicPieData.map((entry, index) => (
-                     <Cell key={`cell-${index}`} fill={entry.color} />
-                   ))}
-                 </Pie>
-                 <Tooltip
-                   formatter={(value: any) => [Number(value).toLocaleString(), 'Projects']}
-                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-border)', background: 'var(--color-bg-card)', color: 'var(--color-text-main)', fontSize: '12px' }}
-                 />
-               </PieChart>
-             </ResponsiveContainer>
-             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', pointerEvents: 'none' }}>
-               <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--color-text-main)' }}>
-                 {currentDonutTotal.toLocaleString()}
-               </div>
-               <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', fontWeight: 600 }}>WORKS</div>
-             </div>
-           </div>
- 
-           <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px', marginTop: '10px' }}>
-             {dynamicPieData.map((item) => (
-               <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--color-text-main)' }}>
-                 <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: item.color }} />
-                 <span>
-                   {item.name}: <strong>{item.value.toLocaleString()}</strong> ({currentDonutTotal > 0 ? ((item.value / currentDonutTotal) * 100).toFixed(1) : '0'}%)
-                 </span>
-               </div>
-             ))}
-           </div>
-         </div>
- 
-         {/* Top States Distribution Bar Chart */}
-         <div className="card">
-           <div className="card-header">
-             <div>
-               <h3>Top States by Monitored Projects</h3>
-               <p>Project volume and review priorities in top jurisdictions</p>
-             </div>
-             <button 
-               className="btn btn-outline btn-sm"
-               onClick={() => onNavigate('state-analytics')}
-             >
-               All States →
-             </button>
-           </div>
-           <div style={{ height: '260px' }}>
-             <ResponsiveContainer width="100%" height="100%">
-               <BarChart data={topStatesData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                 <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }} />
-                 <YAxis tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }} />
-                 <Tooltip 
-                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-border)', background: 'var(--color-bg-card)', color: 'var(--color-text-main)', fontSize: '12px' }}
-                 />
-                 <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '8px', color: 'var(--color-text-secondary)' }} />
-                 <Bar dataKey="total" name="Total Works" fill="#005A36" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-                 <Bar dataKey="review" name="Requires Review" fill="#F59E0B" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-                 <Bar dataKey="highRisk" name="High Risk" fill="#DC2626" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-               </BarChart>
-             </ResponsiveContainer>
-           </div>
-         </div>
-       </div>
 
-      {/* Score Legend Bar */}
-      <div style={{ marginBottom: '18px' }}>
-        <ScoreLegend />
+          <div className="donut-content-row">
+            {/* Left 2 Labels: Low Risk & Medium Risk */}
+            <div className="donut-labels-col">
+              {dynamicPieData.filter(d => d.key === 'LOW' || d.key === 'MEDIUM').map(item => (
+                <div 
+                  key={item.key}
+                  className={`donut-side-label ${hoveredSlice?.key === item.key ? 'active' : ''}`}
+                  onMouseEnter={() => setHoveredSlice(item)}
+                  onMouseLeave={() => setHoveredSlice(null)}
+                  onClick={() => onNavigate('projects', { risk_level: item.key })}
+                  title={`Click to view all ${item.name} in All Works`}
+                >
+                  <div className="donut-side-header">
+                    <div className="donut-label-dot" style={{ backgroundColor: item.color }} />
+                    <span className="donut-label-name">{item.name}</span>
+                  </div>
+                  <div className="donut-label-val" style={{ color: item.color }}>
+                    {item.value.toLocaleString()} <span>({currentDonutTotal > 0 ? ((item.value / currentDonutTotal) * 100).toFixed(1) : '0'}%)</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Center Donut Chart Ring */}
+            <div className="donut-chart-wrapper">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={dynamicPieData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={50}
+                    outerRadius={72}
+                    paddingAngle={3}
+                    dataKey="value"
+                    isAnimationActive={false}
+                    onMouseEnter={(_, index) => setHoveredSlice(dynamicPieData[index])}
+                    onMouseLeave={() => setHoveredSlice(null)}
+                  >
+                    {dynamicPieData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color} 
+                        style={{ 
+                          cursor: 'pointer',
+                          filter: hoveredSlice?.key === entry.key ? 'brightness(1.15) drop-shadow(0 0 5px rgba(0,0,0,0.3))' : 'none',
+                          transition: 'filter 0.15s ease'
+                        }}
+                        onClick={() => onNavigate('projects', { risk_level: entry.key })}
+                      />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="donut-center-badge">
+                <div className="donut-center-val">{currentDonutTotal.toLocaleString()}</div>
+                <div className="donut-center-sub">WORKS</div>
+              </div>
+            </div>
+
+            {/* Right 2 Labels: High Risk & Very High Risk */}
+            <div className="donut-labels-col">
+              {dynamicPieData.filter(d => d.key === 'HIGH' || d.key === 'VERY_HIGH').map(item => (
+                <div 
+                  key={item.key}
+                  className={`donut-side-label ${hoveredSlice?.key === item.key ? 'active' : ''}`}
+                  onMouseEnter={() => setHoveredSlice(item)}
+                  onMouseLeave={() => setHoveredSlice(null)}
+                  onClick={() => onNavigate('projects', { risk_level: item.key })}
+                  title={`Click to view all ${item.name} in All Works`}
+                >
+                  <div className="donut-side-header">
+                    <div className="donut-label-dot" style={{ backgroundColor: item.color }} />
+                    <span className="donut-label-name">{item.name}</span>
+                  </div>
+                  <div className="donut-label-val" style={{ color: item.color }}>
+                    {item.value.toLocaleString()} <span>({currentDonutTotal > 0 ? ((item.value / currentDonutTotal) * 100).toFixed(1) : '0'}%)</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Top States Distribution Bar Chart */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <h3>Top States by Monitored Projects</h3>
+            </div>
+            <button 
+              className="btn btn-outline btn-sm"
+              onClick={() => onNavigate('state-analytics')}
+            >
+              All States →
+            </button>
+          </div>
+          <div style={{ height: '185px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={topStatesData} margin={{ top: 5, right: 10, left: -5, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="barGradTotal" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10B981" />
+                    <stop offset="100%" stopColor="#047857" />
+                  </linearGradient>
+                  <linearGradient id="barGradReview" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#FBBF24" />
+                    <stop offset="100%" stopColor="#D97706" />
+                  </linearGradient>
+                  <linearGradient id="barGradHigh" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#F87171" />
+                    <stop offset="100%" stopColor="#DC2626" />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="name" tick={{ fontSize: 10.5, fill: 'var(--color-text-secondary)' }} axisLine={{ stroke: 'var(--color-border)' }} tickLine={false} />
+                <YAxis tick={{ fontSize: 10.5, fill: 'var(--color-text-secondary)' }} axisLine={false} tickLine={false} />
+                <Tooltip 
+                  cursor={{ fill: 'rgba(0, 0, 0, 0.03)' }}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div style={{
+                          background: 'rgba(15, 23, 42, 0.94)',
+                          color: '#FFFFFF',
+                          borderRadius: '8px',
+                          padding: '6px 10px',
+                          fontSize: '11px',
+                          boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
+                          border: '1px solid rgba(255,255,255,0.12)',
+                          backdropFilter: 'blur(8px)',
+                          pointerEvents: 'none',
+                          minWidth: '140px'
+                        }}>
+                          <div style={{ fontWeight: 800, fontSize: '11.5px', borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: '3px', marginBottom: '4px', color: '#F1F5F9' }}>
+                            {label}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            {payload.map((item: any) => (
+                              <div key={item.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#CBD5E1', fontSize: '10.5px' }}>
+                                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: item.color || item.fill }} />
+                                  {item.name}:
+                                </span>
+                                <strong style={{ color: '#FFFFFF', fontSize: '11px' }}>{Number(item.value).toLocaleString()}</strong>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '4px', color: 'var(--color-text-secondary)' }} />
+                <Bar dataKey="total" name="Total Works" fill="url(#barGradTotal)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="review" name="Requires Review" fill="url(#barGradReview)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="highRisk" name="High Risk" fill="url(#barGradHigh)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
 
-      {/* High-Risk / Priority Review Preview Table */}
-      <div className="card" style={{ marginBottom: '24px' }}>
+      {/* Recent Monitored Works Table (Representative Mix of All Risk Tiers) */}
+      <div className="card" style={{ marginBottom: '20px' }}>
         <div className="card-header">
           <div>
-            <h3>Projects Requiring Attention</h3>
-            <p>Highest risk projects identified for review</p>
+            <h3>Recent Monitored Works</h3>
           </div>
           <button
-            className="btn btn-primary btn-sm"
-            onClick={() => onNavigate('high-risk')}
+            className="btn btn-outline btn-sm"
+            onClick={() => onNavigate('projects')}
           >
-            <span>View All Priority Cases</span>
+            <span>Explore All Works</span>
             <ArrowRight size={14} />
           </button>
         </div>
@@ -364,33 +486,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
             <thead>
               <tr>
                 <th>Work ID</th>
-                <th>Work Title</th>
                 <th>State</th>
                 <th>Financial Year</th>
-                <th>Risk Score</th>
+                <th>Overall Risk Score</th>
                 <th>Risk Level</th>
                 <th>Investigation Priority</th>
-                <th>Primary Review Reason</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {topHighRisk.map((project) => {
+              {recentWorks.map((project) => {
                 const finalCol = getScoreColor(project.final_risk_score);
                 return (
-                  <tr key={project.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(project)}>
+                  <tr key={project.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(project)} title="Click to view full project details & specific site description">
                     <td className="work-id-cell">{project.work_id}</td>
-                    <td style={{ maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {project.work_title}
-                    </td>
                     <td>{project.state}</td>
                     <td>{project.financial_year}</td>
                     <td>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: '70px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', minWidth: '70px', margin: '0 auto' }}>
                         <span style={{ fontWeight: 800, fontSize: '14.5px', color: finalCol }}>
                           {project.final_risk_score.toFixed(1)}%
                         </span>
-                        <div style={{ width: '100%', height: '4px', background: 'var(--color-border)', borderRadius: '2px', overflow: 'hidden' }}>
+                        <div style={{ width: '60px', height: '4px', background: 'var(--color-border)', borderRadius: '2px', overflow: 'hidden' }}>
                           <div style={{ width: `${Math.min(100, project.final_risk_score)}%`, height: '100%', backgroundColor: finalCol }} />
                         </div>
                       </div>
@@ -398,23 +514,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate, onSelectProjec
                     <td>
                       <RiskBadge level={project.risk_level} />
                     </td>
-
                     <td>
                       <PriorityBadge priority={project.investigation_priority} />
-                    </td>
-                    <td style={{ fontSize: '12px', color: 'var(--color-text-secondary)', maxWidth: '220px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {project.primary_risk_reason}
-                    </td>
-                    <td>
-                      <button 
-                        className="btn btn-outline btn-sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectProject(project);
-                        }}
-                      >
-                        View Details
-                      </button>
                     </td>
                   </tr>
                 );

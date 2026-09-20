@@ -4,7 +4,6 @@ import { Header } from './components/Header';
 import { ProjectDetailModal } from './components/ProjectDetailModal';
 import { Dashboard } from './pages/Dashboard';
 import { Projects } from './pages/Projects';
-import { HighRisk } from './pages/HighRisk';
 import { StateAnalytics } from './pages/StateAnalytics';
 import { FinancialYearAnalytics } from './pages/FinancialYearAnalytics';
 import { Methodology } from './pages/Methodology';
@@ -16,6 +15,12 @@ export const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [summary, setSummary] = useState<SystemSummary | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projectFilters, setProjectFilters] = useState<{
+    risk_level?: string;
+    investigation_priority?: string;
+    payment_data_available?: string;
+    state?: string;
+  } | null>(null);
 
   useEffect(() => {
     async function loadInitialMetadata() {
@@ -36,7 +41,12 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleNavigate = (tab: string) => {
+  const handleNavigate = (tab: string, filterParams?: any) => {
+    if (filterParams) {
+      setProjectFilters(filterParams);
+    } else if (tab === 'projects' && !filterParams) {
+      setProjectFilters(null);
+    }
     setCurrentTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -46,7 +56,7 @@ export const App: React.FC = () => {
       {/* Navigation Sidebar */}
       <Sidebar
         currentTab={currentTab}
-        onSelectTab={handleNavigate}
+        onSelectTab={(tab) => handleNavigate(tab)}
         reviewCount={summary?.requiring_review || 2090}
       />
 
@@ -58,7 +68,6 @@ export const App: React.FC = () => {
         />
 
         <main className="content-body">
-
           {currentTab === 'dashboard' && (
             <Dashboard
               onNavigate={handleNavigate}
@@ -71,15 +80,11 @@ export const App: React.FC = () => {
               onSelectProject={setSelectedProject}
               globalSearch={searchQuery}
               selectedState="ALL"
+              initialFilters={projectFilters}
             />
           )}
 
-          {currentTab === 'high-risk' && (
-            <HighRisk
-              onSelectProject={setSelectedProject}
-              selectedState="ALL"
-            />
-          )}
+
 
           {currentTab === 'state-analytics' && (
             <StateAnalytics

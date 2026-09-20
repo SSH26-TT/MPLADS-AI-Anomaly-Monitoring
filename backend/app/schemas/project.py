@@ -11,20 +11,21 @@ class ProjectDetail(BaseModel):
     ida: Optional[str] = None
     work_category: Optional[str] = None
     work_title: str
+    work_description: Optional[str] = None
     financial_year: str
 
-    financial_anomaly_score: float
-    financial_risk_0_100: float
+    sanction_amount: Optional[float] = 0.0
+    total_disbursed_amount: Optional[float] = 0.0
 
+    financial_risk_0_100: float
     payment_data_available: int
-    payment_anomaly_score: Optional[float] = None
     payment_risk_0_100: Optional[float] = None
     payment_anomaly_flag: Optional[bool] = None
 
-    execution_risk_0_100: float
-    execution_consistency_flag: int
+    delay_risk_0_100: float = 0.0
+    execution_risk_0_100: float = 0.0
+    execution_consistency_flag: int = 0
 
-    combined_base_risk: float
     final_risk_score: float
     risk_level: str
     investigation_priority: str
@@ -52,6 +53,7 @@ class SystemSummary(BaseModel):
 class RiskComponentDistribution(BaseModel):
     financial_risk_avg: float
     payment_risk_avg: float
+    delay_risk_avg: float = 0.0
     execution_risk_avg: float
     combined_risk_avg: float
     with_payment_data_count: int
@@ -65,6 +67,7 @@ class StateAnalytics(BaseModel):
     avg_final_risk: float
     avg_financial_risk: float
     avg_payment_risk: Optional[float] = None
+    avg_delay_risk: Optional[float] = 0.0
     avg_execution_risk: float
     low_risk: int
     medium_risk: int

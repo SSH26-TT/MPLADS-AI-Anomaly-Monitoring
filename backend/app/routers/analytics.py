@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func, case
 from typing import List, Dict, Any
-from backend.app.database import get_db
-from backend.app.models.project import MPLADSProject
-from backend.app.schemas.project import StateAnalytics, FinancialYearAnalytics
+from app.database import get_db
+from app.models.project import MPLADSProject
+from app.schemas.project import StateAnalytics, FinancialYearAnalytics
 
 router = APIRouter(prefix="/api", tags=["Analytics & Aggregate Metrics"])
 
@@ -27,6 +27,7 @@ def get_state_analytics(db: Session = Depends(get_db)):
         func.avg(MPLADSProject.final_risk_score).label("avg_final_risk"),
         func.avg(MPLADSProject.financial_risk_0_100).label("avg_financial_risk"),
         func.avg(MPLADSProject.payment_risk_0_100).label("avg_payment_risk"),
+        func.avg(MPLADSProject.delay_risk_0_100).label("avg_delay_risk"),
         func.avg(MPLADSProject.execution_risk_0_100).label("avg_execution_risk"),
         func.sum(case((MPLADSProject.risk_level == "LOW", 1), else_=0)).label("low_risk"),
         func.sum(case((MPLADSProject.risk_level == "MEDIUM", 1), else_=0)).label("medium_risk"),
@@ -45,6 +46,7 @@ def get_state_analytics(db: Session = Depends(get_db)):
                 avg_final_risk=round(float(r.avg_final_risk or 0.0), 2),
                 avg_financial_risk=round(float(r.avg_financial_risk or 0.0), 2),
                 avg_payment_risk=round(float(r.avg_payment_risk or 0.0), 2) if r.avg_payment_risk is not None else None,
+                avg_delay_risk=round(float(r.avg_delay_risk or 0.0), 2) if r.avg_delay_risk is not None else 0.0,
                 avg_execution_risk=round(float(r.avg_execution_risk or 0.0), 2),
                 low_risk=int(r.low_risk or 0),
                 medium_risk=int(r.medium_risk or 0),

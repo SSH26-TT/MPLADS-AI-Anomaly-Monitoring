@@ -2,7 +2,6 @@ import React from 'react';
 import { 
   LayoutDashboard, 
   FolderGit2, 
-  AlertTriangle, 
   MapPin, 
   CalendarRange, 
   ShieldCheck
@@ -18,7 +17,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, revie
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <div className="brand-icon">M</div>
+        <div className="brand-logo-wrap">
+          <img src="/logo.svg" alt="MPLADS AI Monitor" className="brand-logo-img" />
+        </div>
         <div className="brand-text">
           <h1>MPLADS Monitor</h1>
           <p>National Portal</p>
@@ -43,14 +44,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, revie
           <span>All Works</span>
         </button>
 
-        <button
-          className={`nav-item ${currentTab === 'high-risk' ? 'active' : ''}`}
-          onClick={() => onSelectTab('high-risk')}
-        >
-          <AlertTriangle size={18} />
-          <span>Priority Review</span>
-          {reviewCount > 0 && <span className="nav-badge">{reviewCount > 99 ? '99+' : reviewCount}</span>}
-        </button>
+
 
         <div className="nav-section-title">Analytics</div>
         <button

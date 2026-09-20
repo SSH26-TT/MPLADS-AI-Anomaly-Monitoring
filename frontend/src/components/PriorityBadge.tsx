@@ -8,7 +8,16 @@ interface PriorityBadgeProps {
 export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority }) => {
   const norm = (priority || 'NORMAL').toUpperCase();
 
-  if (norm === 'HIGH_REVIEW' || norm === 'CRITICAL_REVIEW') {
+  if (norm === 'CRITICAL_REVIEW') {
+    return (
+      <span className="badge badge-priority-critical">
+        <AlertCircle size={13} />
+        <span>Critical Review</span>
+      </span>
+    );
+  }
+
+  if (norm === 'HIGH_REVIEW') {
     return (
       <span className="badge badge-priority-high">
         <AlertCircle size={13} />

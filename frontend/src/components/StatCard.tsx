@@ -23,6 +23,8 @@ export const StatCard: React.FC<StatCardProps> = ({
   tagBg = '#F1F5F9',
   tagColor = '#475569'
 }) => {
+  const hasFooter = Boolean(tag || subtitle);
+
   return (
     <div className="stat-card">
       <div className="stat-header">
@@ -32,14 +34,16 @@ export const StatCard: React.FC<StatCardProps> = ({
         </div>
       </div>
       <div className="stat-value">{typeof value === 'number' ? value.toLocaleString() : value}</div>
-      <div className="stat-footer">
-        {tag && (
-          <span className="stat-tag" style={{ backgroundColor: tagBg, color: tagColor }}>
-            {tag}
-          </span>
-        )}
-        {subtitle && <span>{subtitle}</span>}
-      </div>
+      {hasFooter && (
+        <div className="stat-footer">
+          {tag && (
+            <span className="stat-tag" style={{ backgroundColor: tagBg, color: tagColor }}>
+              {tag}
+            </span>
+          )}
+          {subtitle && <span>{subtitle}</span>}
+        </div>
+      )}
     </div>
   );
 };

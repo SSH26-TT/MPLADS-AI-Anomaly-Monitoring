@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
-import { Project } from '../types';
+import { Project, SystemSummary } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
 import { Pagination } from '../components/Pagination';
 import { DisclaimerBanner } from '../components/DisclaimerBanner';
-import { ScoreLegend } from '../components/ScoreLegend';
 import { getScoreColor } from '../utils/colors';
-import { AlertTriangle, AlertOctagon, Layers, CreditCard, Eye, ShieldAlert, RefreshCw } from 'lucide-react';
-
+import { AlertTriangle, AlertOctagon, Layers, CreditCard, ShieldAlert, RefreshCw } from 'lucide-react';
 
 interface HighRiskProps {
   onSelectProject: (p: Project) => void;
@@ -17,6 +15,7 @@ interface HighRiskProps {
 
 export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedState }) => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [summary, setSummary] = useState<SystemSummary | null>(api.getCachedSummary());
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -25,6 +24,12 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
   const [activeQuickFilter, setActiveQuickFilter] = useState<'ALL_REVIEW' | 'HIGH_RISK' | 'HIGH_PRIO' | 'EXECUTION' | 'PAYMENT'>('ALL_REVIEW');
+
+  useEffect(() => {
+    if (!summary) {
+      api.getSummary().then(setSummary).catch(() => {});
+    }
+  }, [summary]);
 
   const fetchPriorityQueue = async () => {
     setLoading(true);
@@ -39,15 +44,15 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
       };
 
       if (activeQuickFilter === 'HIGH_RISK') {
-        filters.risk_level = 'HIGH';
+        filters.risk_level = 'HIGH,VERY_HIGH';
       } else if (activeQuickFilter === 'HIGH_PRIO') {
-        filters.investigation_priority = 'HIGH_REVIEW';
+        filters.investigation_priority = 'HIGH_REVIEW,CRITICAL_REVIEW';
       } else if (activeQuickFilter === 'EXECUTION') {
         filters.execution_consistency_flag = 1;
       } else if (activeQuickFilter === 'PAYMENT') {
         filters.payment_anomaly_flag = true;
       } else {
-        filters.investigation_priority = 'REVIEW';
+        filters.investigation_priority = 'REVIEW,HIGH_REVIEW,CRITICAL_REVIEW';
       }
 
       const res = await api.getWorks(filters);
@@ -66,6 +71,12 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
     fetchPriorityQueue();
   }, [page, pageSize, activeQuickFilter, selectedState]);
 
+  const allReviewCount = summary?.requiring_review ?? 26184;
+  const highRiskCount = ((summary?.risk_distribution?.HIGH ?? 2061) + (summary?.risk_distribution?.VERY_HIGH ?? 374));
+  const highPrioCount = ((summary?.investigation_priority_distribution?.HIGH_REVIEW ?? 16105) + (summary?.investigation_priority_distribution?.CRITICAL_REVIEW ?? 487));
+  const execIssuesCount = summary?.execution_consistency_issues ?? 17561;
+  const paymentIssuesCount = summary?.payment_anomalies ?? 3297;
+
   return (
     <div>
       <DisclaimerBanner />
@@ -73,8 +84,8 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
       <div className="page-title-row">
         <div className="page-title-group">
           <span className="page-badge-tag" style={{ color: '#DC2626' }}>Review Priority Queue</span>
-          <h2>Projects Requiring Human Review</h2>
-          <p>Prioritized MPLADS projects with unusual financial patterns, payment flags, or execution discrepancies</p>
+          <h2>Projects Requiring Administrative Review</h2>
+          <p>Prioritized MPLADS projects with financial variances, milestone payment alerts, or schedule delays</p>
         </div>
       </div>
 
@@ -96,8 +107,8 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase' }}>
             <AlertTriangle size={15} /> All Requiring Review
           </div>
-          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>2,090</div>
-          <div style={{ fontSize: '11px', opacity: 0.85 }}>Flagged for inspection</div>
+          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{allReviewCount.toLocaleString()}</div>
+          <div style={{ fontSize: '11px', opacity: 0.85 }}>Flagged review queue</div>
         </button>
 
         <button
@@ -114,10 +125,10 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase' }}>
-            <AlertOctagon size={15} /> High Risk Projects
+            <AlertOctagon size={15} /> High & Very High Risk
           </div>
-          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>190</div>
-          <div style={{ fontSize: '11px', opacity: 0.85 }}>Score 60–100</div>
+          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{highRiskCount.toLocaleString()}</div>
+          <div style={{ fontSize: '11px', opacity: 0.85 }}>Priority Inspection Queue</div>
         </button>
 
         <button
@@ -134,10 +145,10 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase' }}>
-            <ShieldAlert size={15} /> High Priority
+            <ShieldAlert size={15} /> High Priority Cases
           </div>
-          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>58</div>
-          <div style={{ fontSize: '11px', opacity: 0.85 }}>Top attention required</div>
+          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{highPrioCount.toLocaleString()}</div>
+          <div style={{ fontSize: '11px', opacity: 0.85 }}>Administrative priority</div>
         </button>
 
         <button
@@ -154,10 +165,10 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase' }}>
-            <Layers size={15} /> Execution Discrepancies
+            <Layers size={15} /> Schedule / Site Alerts
           </div>
-          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>105</div>
-          <div style={{ fontSize: '11px', opacity: 0.85 }}>Payment/Sanction mismatch</div>
+          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{execIssuesCount.toLocaleString()}</div>
+          <div style={{ fontSize: '11px', opacity: 0.85 }}>Timeline & photo checks</div>
         </button>
 
         <button
@@ -174,16 +185,11 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase' }}>
-            <CreditCard size={15} /> Payment Anomalies
+            <CreditCard size={15} /> Payment Flow Flags
           </div>
-          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>129</div>
-          <div style={{ fontSize: '11px', opacity: 0.85 }}>Unusual disbursement pattern</div>
+          <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{paymentIssuesCount.toLocaleString()}</div>
+          <div style={{ fontSize: '11px', opacity: 0.85 }}>Milestone sequence variance</div>
         </button>
-      </div>
-
-      {/* Score Legend Banner */}
-      <div style={{ marginBottom: '16px' }}>
-        <ScoreLegend />
       </div>
 
       {/* High-Risk Table */}
@@ -192,23 +198,19 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
           <thead>
             <tr>
               <th>Work ID</th>
-              <th>Work Title</th>
               <th>State</th>
               <th>FY</th>
-              <th style={{ textAlign: 'right' }}>Financial Risk</th>
-              <th style={{ textAlign: 'right' }}>Payment Risk</th>
-              <th style={{ textAlign: 'right' }}>Exec Risk</th>
-              <th style={{ textAlign: 'right' }}>Final Risk</th>
+              <th style={{ textAlign: 'right' }}>Sanction Amount</th>
+              <th style={{ textAlign: 'right' }}>Total Disbursed</th>
+              <th style={{ textAlign: 'right' }}>Overall Risk Score</th>
               <th>Risk Level</th>
               <th>Priority</th>
-              <th>Primary Review Reason</th>
-              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={12} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
+                <td colSpan={8} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                     <RefreshCw size={18} className="animate-spin" />
                     <span>Loading prioritized review queue...</span>
@@ -217,61 +219,37 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
               </tr>
             ) : error ? (
               <tr>
-                <td colSpan={12} style={{ textAlign: 'center', padding: '40px', color: '#DC2626' }}>
-                  <div>{error}</div>
-                  <button className="btn btn-outline btn-sm" style={{ marginTop: '12px' }} onClick={fetchPriorityQueue}>
-                    <RefreshCw size={14} />
-                    <span>Retry</span>
-                  </button>
+                <td colSpan={8} style={{ textAlign: 'center', padding: '40px', color: '#DC2626' }}>
+                  {error}
                 </td>
               </tr>
             ) : projects.length === 0 ? (
               <tr>
-                <td colSpan={12} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
-                  No prioritized works found under this filter.
+                <td colSpan={8} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
+                  No priority projects found matching the current filter.
                 </td>
               </tr>
             ) : (
               projects.map((project) => {
-                const payRisk = typeof project.payment_risk_0_100 === 'number' ? project.payment_risk_0_100.toFixed(1) : null;
-                const finCol = getScoreColor(project.financial_risk_0_100);
-                const payCol = project.payment_data_available === 1 && typeof project.payment_risk_0_100 === 'number' ? getScoreColor(project.payment_risk_0_100) : 'var(--color-text-muted)';
-                const execCol = getScoreColor(project.execution_risk_0_100);
                 const finalCol = getScoreColor(project.final_risk_score);
+                const formatRupees = (val?: number | null) => {
+                  if (val === undefined || val === null) return 'N/A';
+                  return '₹' + Number(val).toLocaleString('en-IN');
+                };
 
                 return (
-                  <tr key={project.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(project)}>
+                  <tr key={project.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(project)} title="Click to view full project details & specific site description">
                     <td className="work-id-cell">{project.work_id}</td>
-                    <td style={{ maxWidth: '240px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {project.work_title}
-                    </td>
                     <td>{project.state}</td>
                     <td>{project.financial_year}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 600 }}>{formatRupees(project.sanction_amount)}</td>
+                    <td style={{ textAlign: 'right', fontWeight: 600 }}>{formatRupees(project.total_disbursed_amount)}</td>
                     <td style={{ textAlign: 'right' }}>
-                      <span style={{ fontWeight: 700, color: finCol }}>
-                        {project.financial_risk_0_100.toFixed(1)}%
-                      </span>
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      {payRisk !== null ? (
-                        <span style={{ fontWeight: 700, color: payCol }}>
-                          {payRisk}%
-                        </span>
-                      ) : (
-                        <span style={{ color: 'var(--color-text-muted)', fontSize: '11px', fontWeight: 400 }}>N/A</span>
-                      )}
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <span style={{ fontWeight: 700, color: execCol }}>
-                        {project.execution_risk_0_100.toFixed(1)}%
-                      </span>
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '3px' }}>
-                        <span style={{ fontWeight: 800, fontSize: '14px', color: finalCol }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
+                        <span style={{ fontWeight: 800, fontSize: '13.5px', color: finalCol }}>
                           {project.final_risk_score.toFixed(1)}%
                         </span>
-                        <div style={{ width: '48px', height: '4px', background: 'var(--color-border)', borderRadius: '2px', overflow: 'hidden' }}>
+                        <div style={{ width: '60px', height: '4px', background: 'var(--color-border)', borderRadius: '2px', overflow: 'hidden' }}>
                           <div style={{ width: `${Math.min(100, project.final_risk_score)}%`, height: '100%', backgroundColor: finalCol }} />
                         </div>
                       </div>
@@ -281,22 +259,6 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
                     </td>
                     <td>
                       <PriorityBadge priority={project.investigation_priority} />
-                    </td>
-                    <td style={{ fontSize: '12.5px', fontWeight: 500, color: 'var(--color-text-main)', maxWidth: '220px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {project.primary_risk_reason}
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-outline btn-sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectProject(project);
-                        }}
-                        title="Inspect case details"
-                      >
-                        <Eye size={13} />
-                        <span>Review</span>
-                      </button>
                     </td>
                   </tr>
                 );
@@ -311,8 +273,8 @@ export const HighRisk: React.FC<HighRiskProps> = ({ onSelectProject, selectedSta
         totalPages={totalPages}
         totalItems={total}
         pageSize={pageSize}
-        onPageChange={(p) => setPage(p)}
-        onPageSizeChange={(sz) => { setPageSize(sz); setPage(1); }}
+        onPageChange={setPage}
+        onPageSizeChange={(newSize) => { setPageSize(newSize); setPage(1); }}
       />
     </div>
   );

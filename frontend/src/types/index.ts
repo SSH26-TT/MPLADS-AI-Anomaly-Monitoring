@@ -6,9 +6,13 @@ export interface Project {
   ida?: string | null;
   work_category?: string | null;
   work_title: string;
+  work_description?: string | null;
   financial_year: string;
 
-  financial_anomaly_score: number;
+  sanction_amount?: number | null;
+  total_disbursed_amount?: number | null;
+
+  financial_anomaly_score?: number;
   financial_risk_0_100: number;
 
   payment_data_available: number;
@@ -16,10 +20,11 @@ export interface Project {
   payment_risk_0_100?: number | null;
   payment_anomaly_flag?: boolean | null;
 
+  delay_risk_0_100?: number;
   execution_risk_0_100: number;
   execution_consistency_flag: number;
 
-  combined_base_risk: number;
+  combined_base_risk?: number;
   final_risk_score: number;
   risk_level: 'LOW' | 'MEDIUM' | 'HIGH' | 'VERY_HIGH';
   investigation_priority: 'NORMAL' | 'REVIEW' | 'HIGH_REVIEW' | 'CRITICAL_REVIEW';
@@ -63,6 +68,7 @@ export interface SystemSummary {
 export interface RiskComponentDistribution {
   financial_risk_avg: number;
   payment_risk_avg: number;
+  delay_risk_avg?: number;
   execution_risk_avg: number;
   combined_risk_avg: number;
   with_payment_data_count: number;
@@ -77,6 +83,7 @@ export interface StateAnalytics {
   avg_final_risk: number;
   avg_financial_risk: number;
   avg_payment_risk: number | null;
+  avg_delay_risk?: number | null;
   avg_execution_risk: number;
   low_risk: number;
   medium_risk: number;

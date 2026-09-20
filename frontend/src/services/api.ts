@@ -12,11 +12,11 @@ import {
 const API_HOST = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/$/, '') : '';
 const API_BASE = `${API_HOST}/api`;
 
-// Helper for caching static data in memory and localStorage for 0ms instant loading
+// Helper for caching static data in memory and localStorage for instant loading
 const cache = {
   get<T>(key: string): T | null {
     try {
-      const item = localStorage.getItem(`mplads_cache_${key}`);
+      const item = localStorage.getItem(`mplads_cache_v3_${key}`);
       return item ? JSON.parse(item) : null;
     } catch {
       return null;
@@ -24,7 +24,7 @@ const cache = {
   },
   set(key: string, data: any): void {
     try {
-      localStorage.setItem(`mplads_cache_${key}`, JSON.stringify(data));
+      localStorage.setItem(`mplads_cache_v3_${key}`, JSON.stringify(data));
     } catch {}
   }
 };
@@ -86,6 +86,12 @@ export const api = {
   async getWorkById(workId: string): Promise<Project> {
     const res = await fetch(`${API_BASE}/works/${encodeURIComponent(workId)}`);
     if (!res.ok) throw new Error(`Failed to fetch work details: ${res.statusText}`);
+    return res.json();
+  },
+
+  async getRecentMix(): Promise<Project[]> {
+    const res = await fetch(`${API_BASE}/recent-mix`);
+    if (!res.ok) throw new Error(`Failed to fetch recent mix: ${res.statusText}`);
     return res.json();
   },
 

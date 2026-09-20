@@ -26,6 +26,12 @@ backend/venv/
 *.sqlite
 *.sqlite3
 mplads.db
+backend/mplads.db
+
+# Duplicate CSVs
+/mplads_final_master_risk.csv
+backend/mplads_final_master_risk.csv
+Backend/mplads_final_master_risk.csv
 
 # Environment variables
 

@@ -5,7 +5,6 @@ import { StatCard } from '../components/StatCard';
 import { RiskBadge } from '../components/RiskBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
 import { DisclaimerBanner } from '../components/DisclaimerBanner';
-import { ScoreLegend } from '../components/ScoreLegend';
 import { getScoreColor } from '../utils/colors';
 
 import { 
@@ -171,7 +170,7 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <StatCard
           title="High-Risk Projects"
           value={currentStateMetrics.high_risk_projects}
-          subtitle="Score 60–100"
+          subtitle="Priority Action Cases"
           icon={<AlertOctagon size={20} />}
           iconBg="var(--risk-high-bg)"
           iconColor="var(--risk-high-text)"
@@ -180,7 +179,7 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
         <StatCard
           title="Average Risk Score"
           value={currentStateMetrics.avg_final_risk.toFixed(1)}
-          subtitle="State Average (0-100)"
+          subtitle="State Average"
           icon={<TrendingUp size={20} />}
           iconBg="var(--color-bg-input)"
           iconColor="#2563EB"
@@ -246,23 +245,62 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
           <div style={{ height: '260px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={top10StatesChartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
-                <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--color-text-secondary)' }} />
-                <YAxis tick={{ fontSize: 10, fill: 'var(--color-text-secondary)' }} />
+                <defs>
+                  <linearGradient id="barStateTotal" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10B981" />
+                    <stop offset="100%" stopColor="#047857" />
+                  </linearGradient>
+                  <linearGradient id="barStateReview" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#F87171" />
+                    <stop offset="100%" stopColor="#DC2626" />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--color-text-secondary)' }} axisLine={{ stroke: 'var(--color-border)' }} tickLine={false} />
+                <YAxis tick={{ fontSize: 10, fill: 'var(--color-text-secondary)' }} axisLine={false} tickLine={false} />
                 <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-border)', background: 'var(--color-bg-card)', color: 'var(--color-text-main)', fontSize: '12px' }}
+                  cursor={{ fill: 'rgba(0, 0, 0, 0.03)' }}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div style={{
+                          background: 'rgba(15, 23, 42, 0.94)',
+                          color: '#FFFFFF',
+                          borderRadius: '8px',
+                          padding: '6px 10px',
+                          fontSize: '11px',
+                          boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
+                          border: '1px solid rgba(255,255,255,0.12)',
+                          backdropFilter: 'blur(8px)',
+                          pointerEvents: 'none',
+                          minWidth: '140px'
+                        }}>
+                          <div style={{ fontWeight: 800, fontSize: '11.5px', borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: '3px', marginBottom: '4px', color: '#F1F5F9' }}>
+                            {label}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            {payload.map((item: any) => (
+                              <div key={item.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#CBD5E1', fontSize: '10.5px' }}>
+                                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: item.color || item.fill }} />
+                                  {item.name}:
+                                </span>
+                                <strong style={{ color: '#FFFFFF', fontSize: '11px' }}>{Number(item.value).toLocaleString()}</strong>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '6px', color: 'var(--color-text-secondary)' }} />
-                <Bar dataKey="total" name="Total Works" fill="#005A36" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-                <Bar dataKey="review" name="Requires Review" fill="#DC2626" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="total" name="Total Works" fill="url(#barStateTotal)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="review" name="Requires Review" fill="url(#barStateReview)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
-      </div>
-
-      {/* Score Legend */}
-      <div style={{ marginBottom: '16px' }}>
-        <ScoreLegend />
       </div>
 
       {/* Selected State Top Priority Works */}
@@ -286,25 +324,23 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
             <thead>
               <tr>
                 <th>Work ID</th>
-                <th>Work Title</th>
                 <th>Financial Year</th>
-                <th style={{ textAlign: 'right' }}>Financial Risk</th>
-                <th style={{ textAlign: 'right' }}>Payment Risk</th>
-                <th style={{ textAlign: 'right' }}>Exec Risk</th>
-                <th style={{ textAlign: 'right' }}>Final Risk</th>
+                <th>Financial Risk</th>
+                <th>Payment Risk</th>
+                <th>Exec Risk</th>
+                <th>Final Risk</th>
                 <th>Risk Level</th>
                 <th>Priority</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {worksLoading ? (
                 <tr>
-                  <td colSpan={10} style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-secondary)' }}>Loading state works...</td>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-secondary)' }}>Loading state works...</td>
                 </tr>
               ) : selectedStateWorks.length === 0 ? (
                 <tr>
-                  <td colSpan={10} style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-secondary)' }}>No works found for {activeState}</td>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-secondary)' }}>No works found for {activeState}</td>
                 </tr>
               ) : (
                 selectedStateWorks.map(work => {
@@ -315,27 +351,24 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
                   const finalCol = getScoreColor(work.final_risk_score);
 
                   return (
-                    <tr key={work.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(work)}>
+                    <tr key={work.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(work)} title="Click to view full project details & specific site description">
                       <td className="work-id-cell">{work.work_id}</td>
-                      <td style={{ maxWidth: '240px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {work.work_title}
-                      </td>
                       <td>{work.financial_year}</td>
-                      <td style={{ textAlign: 'right' }}>
+                      <td>
                         <span style={{ fontWeight: 700, color: finCol }}>{work.financial_risk_0_100.toFixed(1)}%</span>
                       </td>
-                      <td style={{ textAlign: 'right' }}>
+                      <td>
                         {payRisk !== null ? (
                           <span style={{ fontWeight: 700, color: payCol }}>{payRisk}%</span>
                         ) : (
                           <span style={{ color: 'var(--color-text-muted)', fontSize: '11px', fontWeight: 400 }}>N/A</span>
                         )}
                       </td>
-                      <td style={{ textAlign: 'right' }}>
+                      <td>
                         <span style={{ fontWeight: 700, color: execCol }}>{work.execution_risk_0_100.toFixed(1)}%</span>
                       </td>
-                      <td style={{ textAlign: 'right' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '3px' }}>
+                      <td>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', margin: '0 auto' }}>
                           <span style={{ fontWeight: 800, fontSize: '14.5px', color: finalCol }}>
                             {work.final_risk_score.toFixed(1)}%
                           </span>
@@ -346,18 +379,6 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
                       </td>
                       <td><RiskBadge level={work.risk_level} /></td>
                       <td><PriorityBadge priority={work.investigation_priority} /></td>
-                      <td>
-                        <button
-                          className="btn btn-outline btn-sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onSelectProject(work);
-                          }}
-                        >
-                          <Eye size={12} />
-                          <span>Inspect</span>
-                        </button>
-                      </td>
                     </tr>
                   );
                 })
@@ -382,12 +403,12 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
               <tr>
                 <th>#</th>
                 <th>State / UT</th>
-                <th style={{ textAlign: 'right' }}>Total Works</th>
-                <th style={{ textAlign: 'right' }}>Requiring Review</th>
-                <th style={{ textAlign: 'right' }}>High Risk</th>
-                <th style={{ textAlign: 'right' }}>Avg Risk Score</th>
-                <th style={{ textAlign: 'right' }}>Low Risk</th>
-                <th style={{ textAlign: 'right' }}>Medium Risk</th>
+                <th>Total Works</th>
+                <th>Requiring Review</th>
+                <th>High Risk</th>
+                <th>Avg Risk Score</th>
+                <th>Low Risk</th>
+                <th>Medium Risk</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -401,15 +422,15 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
                       <span style={{ marginLeft: '8px', fontSize: '11px', color: 'var(--color-primary)', fontWeight: 700 }}>[Selected]</span>
                     )}
                   </td>
-                  <td style={{ textAlign: 'right', fontWeight: 700 }}>{st.total_projects.toLocaleString()}</td>
-                  <td style={{ textAlign: 'right', fontWeight: 600, color: '#D97706' }}>
+                  <td style={{ fontWeight: 700 }}>{st.total_projects.toLocaleString()}</td>
+                  <td style={{ fontWeight: 600, color: '#D97706' }}>
                     {st.requiring_review.toLocaleString()}
                   </td>
-                  <td style={{ textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>
+                  <td style={{ fontWeight: 700, color: '#DC2626' }}>
                     {st.high_risk_projects.toLocaleString()}
                   </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '3px' }}>
+                  <td>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', margin: '0 auto' }}>
                       <span style={{ fontWeight: 700, color: getScoreColor(st.avg_final_risk) }}>
                         {st.avg_final_risk.toFixed(1)}%
                       </span>
@@ -418,8 +439,8 @@ export const StateAnalytics: React.FC<StateAnalyticsProps> = ({
                       </div>
                     </div>
                   </td>
-                  <td style={{ textAlign: 'right', color: '#059669', fontWeight: 600 }}>{st.low_risk.toLocaleString()}</td>
-                  <td style={{ textAlign: 'right', color: '#D97706', fontWeight: 600 }}>{st.medium_risk.toLocaleString()}</td>
+                  <td style={{ color: '#059669', fontWeight: 600 }}>{st.low_risk.toLocaleString()}</td>
+                  <td style={{ color: '#D97706', fontWeight: 600 }}>{st.medium_risk.toLocaleString()}</td>
                   <td>
                     <button
                       className="btn btn-outline btn-sm"

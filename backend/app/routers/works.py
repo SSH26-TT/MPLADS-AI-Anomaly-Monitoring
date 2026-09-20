@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, desc, asc
 from typing import Optional, List
-from backend.app.database import get_db
-from backend.app.models.project import MPLADSProject
-from backend.app.schemas.project import ProjectDetail, PaginatedProjectsResponse
+from app.database import get_db
+from app.models.project import MPLADSProject
+from app.schemas.project import ProjectDetail, PaginatedProjectsResponse
 
 router = APIRouter(prefix="/api", tags=["Projects & Risk Exploration"])
 
@@ -35,6 +35,7 @@ def get_works(
             or_(
                 MPLADSProject.work_id.ilike(term),
                 MPLADSProject.work_title.ilike(term),
+                MPLADSProject.work_description.ilike(term),
                 MPLADSProject.mp_key.ilike(term),
                 MPLADSProject.ida.ilike(term),
                 MPLADSProject.state.ilike(term)
@@ -52,10 +53,18 @@ def get_works(
         query = query.filter(MPLADSProject.work_category == work_category.strip())
 
     if risk_level and risk_level.strip() and risk_level != "ALL":
-        query = query.filter(MPLADSProject.risk_level == risk_level.strip())
+        levels = [l.strip() for l in risk_level.split(",") if l.strip()]
+        if len(levels) == 1:
+            query = query.filter(MPLADSProject.risk_level == levels[0])
+        else:
+            query = query.filter(MPLADSProject.risk_level.in_(levels))
 
     if investigation_priority and investigation_priority.strip() and investigation_priority != "ALL":
-        query = query.filter(MPLADSProject.investigation_priority == investigation_priority.strip())
+        prios = [p.strip() for p in investigation_priority.split(",") if p.strip()]
+        if len(prios) == 1:
+            query = query.filter(MPLADSProject.investigation_priority == prios[0])
+        else:
+            query = query.filter(MPLADSProject.investigation_priority.in_(prios))
 
     if primary_risk_reason and primary_risk_reason.strip() and primary_risk_reason != "ALL":
         query = query.filter(MPLADSProject.primary_risk_reason == primary_risk_reason.strip())
@@ -103,6 +112,15 @@ def get_works(
         page_size=page_size,
         total_pages=total_pages
     )
+
+@router.get("/recent-mix", response_model=List[ProjectDetail])
+def get_recent_mix(db: Session = Depends(get_db)):
+    """Return a balanced multi-tier sample of monitored works (Very High, High, Medium, Low) for the dashboard."""
+    vh = db.query(MPLADSProject).filter(MPLADSProject.risk_level == "VERY_HIGH").order_by(desc(MPLADSProject.final_risk_score)).limit(2).all()
+    h = db.query(MPLADSProject).filter(MPLADSProject.risk_level == "HIGH").order_by(desc(MPLADSProject.final_risk_score)).limit(2).all()
+    m = db.query(MPLADSProject).filter(MPLADSProject.risk_level == "MEDIUM").order_by(desc(MPLADSProject.final_risk_score)).limit(2).all()
+    l = db.query(MPLADSProject).filter(MPLADSProject.risk_level == "LOW").order_by(desc(MPLADSProject.final_risk_score)).limit(2).all()
+    return vh + h + m + l
 
 @router.get("/works/{work_id:path}", response_model=ProjectDetail)
 def get_work_by_id(work_id: str, db: Session = Depends(get_db)):

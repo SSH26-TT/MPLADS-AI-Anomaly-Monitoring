@@ -12,7 +12,7 @@
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.10+-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0F766E)](https://fastapi.tiangolo.com/)
 [![Scikit-Learn](https://img.shields.io/badge/ML%20Engine-Dual%20Isolation%20Forest-EA580C?style=for-the-badge&logo=scikit-learn&logoColor=white&labelColor=9A3412)](https://scikit-learn.org/)
 [![Database](https://img.shields.io/badge/Database-SQLite%20%2F%20PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=1E1B4B)](https://www.sqlite.org/)
-[![Status](https://img.shields.io/badge/National%20Scope-98%2C755%20Projects%20%7C%2036%20States-16A34A?style=for-the-badge&logo=target&logoColor=white&labelColor=14532D)](#-the-rising-challenge--our-ai-solution)
+[![National Scope](https://img.shields.io/badge/National%20Scope-98%2C755%20Projects%20%7C%2036%20States-16A34A?style=for-the-badge&logo=target&logoColor=white&labelColor=14532D)](#-the-rising-challenge--our-ai-solution)
 
 <br/>
 
@@ -23,11 +23,9 @@
 
 <br/>
 
-[🌟 Key Highlights](#-key-capabilities) • [🤖 ML Architecture](#-machine-learning--anomaly-detection-architecture) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [🚀 Quick Launch](#-quick-start--local-deployment)
+[🌟 Key Highlights](#-key-capabilities) • [🤖 ML Architecture](#-machine-learning--anomaly-detection-architecture) • [🎨 Modern UI & Design](#-sleek-modern-ui--design-system) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [🚀 Quick Launch](#-quick-start--local-deployment)
 
 </div>
-
-
 
 ---
 
@@ -57,10 +55,10 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
 1. **National-Scale Screening in Seconds**: Continuously screens all **98,755 projects nationwide**, turning millions of raw administrative records into actionable intelligence.
 2. **Intelligent Triage (From 100,000 to the Critical 2%)**: Instead of inspecting 100,000 files blindly, our multi-criteria AI engine automatically isolates the **2,090 projects (just ~2%)** showing unusual disbursement patterns or milestone delays.
 3. **Dual Machine Learning + Deterministic Rules**:
-   - **Financial AI Model**: Evaluates sanction-to-disbursement ratios and budget variance.
-   - **Payment Velocity AI**: Flags unusual installment velocity, sequence anomalies, and vendor concentration.
+   - **Financial AI Model**: Evaluates sanction-to-disbursement ratios, tranche variance, and budget compliance.
+   - **Payment Velocity AI**: Flags unusual installment release sequences and abnormal vendor concentration.
    - **Consistency Rules**: Automatically catches physical completion mismatches and sanction overruns.
-4. **Actionable 1-Click Governance**: Auditors can instantly filter state-by-state, inspect component breakdown cards, and initiate field inquiries with a single click.
+4. **Actionable Governance**: Auditors can instantly filter state-by-state, inspect component breakdown cards, and examine specific site descriptions with a single click.
 
 ---
 
@@ -70,10 +68,10 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                   🎯 CORE CAPABILITY HIGHLIGHTS                                       │
 ├──────────────────────────┬──────────────────────────┬──────────────────────────┬───────────────────────┤
-│ 📊 98,755 Projects       │ 🎯 5-Tier Color Scale    │ ⚡ Instant State Filter  │ 🔍 Multi-Criteria ML  │
-│ Complete national census │ Standardized color tiers │ Instant drill-down in    │ Dual Isolation Forest │
-│ across all 36 States &   │ with percentage numbers  │ interactive donut cards  │ + Deterministic Rules │
-│ Union Territories.       │ & synchronized bars.     │ with 0ms paint latency.  │ (0-100 scale).        │
+│ 📊 98,755 Projects       │ 🎨 Sleek Gradient UI     │ ⚡ Dynamic State Filter  │ 🔍 Multi-Criteria ML  │
+│ Complete national census │ Obsidian-emerald sidebar │ Instant drill-down in    │ Dual Isolation Forest │
+│ across all 36 States &   │ with glassmorphism cards │ interactive donut cards  │ + Deterministic Rules │
+│ Union Territories.       │ & centered data tables.  │ with 0ms paint latency.  │ (0-100 score scale).  │
 └──────────────────────────┴──────────────────────────┴──────────────────────────┴───────────────────────┘
 ```
 
@@ -93,27 +91,39 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
       <h3>💼 High-Density Decision Portal</h3>
       <ul>
         <li><b>Interactive Scope Filtering</b>: Instant state-by-state slice in the national risk donut chart.</li>
-        <li><b>Actionable Priority Queue</b>: 1-click audit workflows (<i>Request Field Inquiry</i>, <i>Mark Reviewed</i>).</li>
+        <li><b>Clean Centered Data Hierarchy</b>: All table columns, metrics, and badges are centered for optimal readability.</li>
         <li><b>Temporal Fiscal Analytics</b>: Tracks multi-year risk trajectories across 2023–2027 fiscal periods.</li>
       </ul>
     </td>
   </tr>
 </table>
 
+---
+
+## 🎨 Sleek Modern UI & Design System
+
+The portal features a **modern gradient & glassmorphism** design crafted specifically for high-density administrative monitoring:
+
+- **Obsidian-Emerald Gradient Sidebar**: Multi-stop gradient (`#021E16` $\rightarrow$ `#063E2F` $\rightarrow$ `#01140E`) with glowing active navigation indicators and official national emblem branding.
+- **Glassmorphic Cards**: `backdrop-filter: blur(14px)` with subtle elevation shadows and `-3px` interactive hover lift.
+- **2x2 Side-by-Side Donut Labels**: Balanced ~30px breathing room between donut ring and side cards with centered statistics and percentages.
+- **SVG Linear Gradients**: Custom `<defs><linearGradient...>` applied across Recharts bar, line, and area charts.
+- **Non-Intrusive Tooltips**: Compact, dark glassmorphic hover cards (`#0F172A`, `blur(8px)`) that display clean metrics without covering graph bars.
+- **Centered Data Tables**: Centered table headers, row data, meters, and glowing status pills with gradient hover illumination.
 
 ---
 
-## 🎨 Standardized 5-Tier Color Coding Standard
+## 🎯 Standardized 4-Tier & 5-Tier Risk Scales
 
-Every risk score, percentage number, badge, and progress bar across all modules adheres to this unified color-coded taxonomy:
+Every risk score, percentage number, badge, and progress bar across all modules adheres to a unified color-coded taxonomy:
 
 | Score Range | Color Tone | Hex Code | Visual Indicator | Official Classification | Operational Action |
 | :---: | :---: | :---: | :---: | :---: | :--- |
 | **`0 – 20`** | **Green** | `#059669` | `🟢 [██░░░░░░░░]` | **Low Risk** | Routine administrative record; regular tracking |
 | **`20 – 40`** | **Greenish-Yellow** | `#84CC16` | `🟡 [████░░░░░░]` | **Low-Moderate** | Standard monitoring; normal baseline variance |
-| **`40 – 60`** | **Orange** | `#F97316` | `🟠 [██████░░░░]` | **Moderate Risk** | Advisory observation; monitor subsequent releases |
+| **`40 – 60`** | **Orange** | `#F97316` | `🟠 [██████░░░░]` | **Medium Risk** | Advisory observation; monitor subsequent releases |
 | **`60 – 80`** | **Light Red** | `#EF4444` | `🔴 [████████░░]` | **High Risk** | **Administrative Review Required** |
-| **`80 – 100`** | **Dark Red** | `#991B1B` | `🟣 [██████████]` | **Critical Risk** | **Priority Review / Field Inquiry Mandated** |
+| **`80 – 100`** | **Dark Red** | `#991B1B` | `🟣 [██████████]` | **Very High Risk** | **Priority Review / Field Inquiry Mandated** |
 
 ---
 
@@ -237,34 +247,31 @@ $$\text{Final Risk Score} = \begin{cases}
 
 <table>
   <tr>
-    <td width="33%" align="center">
+    <td width="25%" align="center">
       <h4>📊 Tab 1: Dashboard</h4>
-      <p>National summary KPIs, interactive state-level risk donut chart with inline dropdown selector, top states bar chart, score index key, and highest-risk preview table.</p>
+      <p>National summary KPIs, 4-tier risk banner cards, interactive state-level risk donut chart with inline dropdown selector, top states bar chart, and recent works table.</p>
     </td>
-    <td width="33%" align="center">
+    <td width="25%" align="center">
       <h4>📂 Tab 2: All Works</h4>
-      <p>Full 98,755-project database register with multi-parameter filtering (State, FY, Category, Risk, Priority), instant search, and inline mini color progress bars.</p>
+      <p>Full 98,755-project registry with multi-parameter filtering (State, FY, Category, Risk, Priority, Payment Data), instant search, center-aligned table, and glowing pill badges.</p>
     </td>
-    <td width="33%" align="center">
-      <h4>⚠️ Tab 3: Priority Review</h4>
-      <p>Dedicated audit triage queue equipped with quick-filter chips (<i>All Requiring Review</i>, <i>High Risk</i>, <i>High Priority</i>, <i>Execution Issues</i>, <i>Payment Anomalies</i>).</p>
+    <td width="25%" align="center">
+      <h4>🗺️ Tab 3: State Wise Analysis</h4>
+      <p>36 States & UTs risk overview, state selector with volume ranking, individual state risk distribution, workload comparison chart, and prioritized state work inspection.</p>
     </td>
-  </tr>
-  <tr>
-    <td width="33%" align="center">
-      <h4>🗺️ Tab 4: State Wise Analysis</h4>
-      <p>36 States & UTs risk overview matrix, individual state risk distributions, workload comparisons, and prioritized state work inspection.</p>
-    </td>
-    <td width="33%" align="center">
-      <h4>📅 Tab 5: Financial Year</h4>
+    <td width="25%" align="center">
+      <h4>📅 Tab 4: Financial Year</h4>
       <p>Longitudinal fiscal trends across financial years, review demand growth, mean anomaly trajectory curves, and annual statistical matrix.</p>
-    </td>
-    <td width="33%" align="center">
-      <h4>🔍 Inspection Modal</h4>
-      <p>Deep-dive single work modal: sanction vs. disbursement ratios, payment verification signals, execution consistency checks, and audit action buttons.</p>
     </td>
   </tr>
 </table>
+
+<br/>
+
+<div align="center">
+  <h4>🔍 Deep Inspection Work Modal</h4>
+  <p>Detailed project dossier: sanction vs. disbursement amounts, specific site and location scope descriptions, 5-dimension risk breakdown meters, and structured administrative audit observations.</p>
+</div>
 
 ---
 
@@ -279,9 +286,8 @@ The FastAPI server provides high-performance asynchronous endpoints with composi
 | Method | Endpoint | Description | Query Parameters |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/summary` | National KPI metrics, review counts, risk distributions | — |
-| `GET` | `/api/works` | Paginated, filterable, sortable master project list | `page`, `page_size`, `state`, `financial_year`, `risk_level`, `search`, `sort_by` |
+| `GET` | `/api/works` | Paginated, filterable, sortable master project list | `page`, `page_size`, `state`, `financial_year`, `risk_level`, `investigation_priority`, `payment_data_available`, `search`, `sort_by`, `sort_order` |
 | `GET` | `/api/works/{work_id}` | Deep inspection metadata and audit flags for a single work | `work_id` |
-| `GET` | `/api/high-risk` | Priority review queue sorted descending by risk score | `page`, `page_size`, `state` |
 | `GET` | `/api/states` | 36 States & UTs aggregated workload, review count, and avg risk | — |
 | `GET` | `/api/financial-years` | Annual multi-year trends, counts, and risk trajectories | — |
 | `GET` | `/api/filters` | Distinct dynamic dropdown options | — |
@@ -300,7 +306,7 @@ The FastAPI server provides high-performance asynchronous endpoints with composi
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/SSH26-TT/MPLADS-AI-Anomaly-Monitoring.git
+git clone https://github.com/Sankhyaan/MPLADS-AI-Anomaly-Monitoring.git
 cd MPLADS-AI-Anomaly-Monitoring
 ```
 
@@ -333,7 +339,7 @@ cd frontend
 # Install Node dependencies
 npm install
 
-# Start Vite dev server (accessible across local network)
+# Start Vite dev server
 npm run dev -- --host 0.0.0.0 --port 5173
 ```
 > 🌐 Dashboard Web App: `http://localhost:5173/`
@@ -344,7 +350,7 @@ npm run dev -- --host 0.0.0.0 --port 5173
 
 ### Step 1: Deploy Backend to [Render.com](https://render.com) (Free)
 1. Log in to **[Render.com](https://render.com)** and click **New +** → **Web Service**.
-2. Connect your GitHub repository: `SSH26-TT/MPLADS-AI-Anomaly-Monitoring`.
+2. Connect your GitHub repository: `Sankhyaan/MPLADS-AI-Anomaly-Monitoring`.
 3. Configure the service settings:
    - **Name**: `mplads-ai-backend`
    - **Language / Runtime**: `Python 3`
@@ -357,7 +363,7 @@ npm run dev -- --host 0.0.0.0 --port 5173
 
 ### Step 2: Deploy Frontend to [Vercel.com](https://vercel.com) (Free)
 1. Log in to **[Vercel.com](https://vercel.com)** and click **Add New...** → **Project**.
-2. Import repository: `SSH26-TT/MPLADS-AI-Anomaly-Monitoring`.
+2. Import repository: `Sankhyaan/MPLADS-AI-Anomaly-Monitoring`.
 3. Configure settings:
    - **Root Directory**: Click *Edit* and select **`frontend`**.
    - **Framework Preset**: `Vite`
@@ -365,10 +371,8 @@ npm run dev -- --host 0.0.0.0 --port 5173
    - **Key**: `VITE_API_URL`
    - **Value**: `https://mplads-ai-backend.onrender.com` *(your Render backend URL)*
 5. Click **Deploy**.
-6. Your platform will be live with a permanent HTTPS domain!
 
 ---
-
 
 ## 📁 Repository Structure
 
@@ -418,9 +422,10 @@ MPLADS-AI-Anomaly-Monitoring/
 │   ├── 📄 requirements.txt      # Python dependencies
 │   └── 📄 .env.example          # Environment configuration template
 ├── 📂 frontend/
+│   ├── 📂 public/               # Static assets & government emblem logo
 │   ├── 📂 src/
 │   │   ├── 📂 components/       # Modals, ScoreLegend, StatCard, Badges, Header, Sidebar
-│   │   ├── 📂 pages/            # Dashboard, All Works, Priority Review, State & FY Analytics
+│   │   ├── 📂 pages/            # Dashboard, All Works, State & FY Analytics
 │   │   ├── 📂 services/         # Axios API client
 │   │   ├── 📂 utils/            # 5-tier color scale & formatting utilities
 │   │   ├── 📂 types/            # TypeScript data contracts
@@ -429,26 +434,9 @@ MPLADS-AI-Anomaly-Monitoring/
 │   ├── 📄 package.json          # Node dependencies
 │   └── 📄 vite.config.ts        # Vite configuration
 ├── 📄 .gitignore                # Git exclusions
+├── 📄 render.yaml               # Render infrastructure-as-code
 └── 📄 README.md                 # Project documentation
 ```
-
----
-
-## 📓 Machine Learning Research & Experimentation Notebooks
-
-The `Notebooks/` directory contains the complete end-to-end experimental research pipeline, documenting how the anomaly detection models were formulated, trained, evaluated, and packaged:
-
-1. **`Notebooks/Isolation_Forest/Finance_model/`**:
-   - `01_data_preparation.ipynb`: Aggregates work-level records from raw sanction and disbursement tables, generating 12 core financial variance features (e.g., payment-to-sanction ratio, variance spread, tranche deviation).
-   - `02_financial_anomaly_model.ipynb`: Trains an ensemble `IsolationForest` (300 estimators) on historical baseline fiscal years (2023–2026), sets anomaly cutoff percentiles, and evaluates performance on 2026–27 test data.
-   - `03_model_export.ipynb`: Serializes the trained scikit-learn model (`isolation_forest_model.pkl`), threshold configuration (`risk_thresholds.json`), and metadata for backend deployment.
-
-2. **`Notebooks/Isolation_Forest/Payment_model/`**:
-   - `01.ipynb`: Analyzes transaction velocity, installment sequence intervals, and historical vendor concentration across 100,000+ disbursement records. Builds the payment anomaly model and missing value imputation pipeline (`payment_anomaly_imputer.pkl`).
-
-3. **`Notebooks/Execution & Risk_Score/`**:
-   - Evaluates physical execution rules (such as works marked physically completed with zero recorded disbursements, or projects exceeding sanction ceilings).
-   - Combines financial anomaly scores, payment sequence risk, and execution consistency flags into a unified, balanced **0–100 Composite Risk Score**.
 
 ---
 

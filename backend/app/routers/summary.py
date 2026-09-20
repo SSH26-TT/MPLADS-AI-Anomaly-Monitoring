@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from backend.app.database import get_db
-from backend.app.models.project import MPLADSProject
-from backend.app.schemas.project import SystemSummary, RiskComponentDistribution
+from app.database import get_db
+from app.models.project import MPLADSProject
+from app.schemas.project import SystemSummary, RiskComponentDistribution
 
 router = APIRouter(prefix="/api", tags=["Summary & Risk Engine Overview"])
 
@@ -111,6 +111,7 @@ def get_risk_components(db: Session = Depends(get_db)):
     financial_avg = db.query(func.avg(MPLADSProject.financial_risk_0_100)).scalar() or 0.0
     payment_avg = db.query(func.avg(MPLADSProject.payment_risk_0_100))\
         .filter(MPLADSProject.payment_data_available == 1).scalar() or 0.0
+    delay_avg = db.query(func.avg(MPLADSProject.delay_risk_0_100)).scalar() or 0.0
     execution_avg = db.query(func.avg(MPLADSProject.execution_risk_0_100)).scalar() or 0.0
     combined_avg = db.query(func.avg(MPLADSProject.final_risk_score)).scalar() or 0.0
 
@@ -122,6 +123,7 @@ def get_risk_components(db: Session = Depends(get_db)):
     _RISK_COMP_CACHE = RiskComponentDistribution(
         financial_risk_avg=round(float(financial_avg), 2),
         payment_risk_avg=round(float(payment_avg), 2),
+        delay_risk_avg=round(float(delay_avg), 2),
         execution_risk_avg=round(float(execution_avg), 2),
         combined_risk_avg=round(float(combined_avg), 2),
         with_payment_data_count=with_payment,

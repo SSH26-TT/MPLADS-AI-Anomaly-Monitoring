@@ -7,34 +7,40 @@ interface RiskBadgeProps {
   showScore?: boolean;
 }
 
-export const RiskBadge: React.FC<RiskBadgeProps> = ({ level, score, showScore = false }) => {
+export const RiskBadge: React.FC<RiskBadgeProps> = ({ level }) => {
   const normLevel = (level || 'LOW').toUpperCase();
 
-  if (normLevel === 'HIGH' || normLevel === 'VERY_HIGH') {
+  if (normLevel === 'VERY_HIGH') {
     return (
-      <span className="badge badge-high" title={`Risk Level: ${normLevel}${score !== undefined ? ` (${score.toFixed(1)})` : ''}`}>
+      <span className="badge badge-very-high" title="Risk Classification: Very High">
         <AlertOctagon size={13} />
-        <span>{normLevel === 'VERY_HIGH' ? 'Very High' : 'High'}</span>
-        {showScore && score !== undefined && <span style={{ opacity: 0.85 }}>({score.toFixed(1)})</span>}
+        <span>Very High</span>
+      </span>
+    );
+  }
+
+  if (normLevel === 'HIGH') {
+    return (
+      <span className="badge badge-high" title="Risk Classification: High">
+        <AlertOctagon size={13} />
+        <span>High</span>
       </span>
     );
   }
 
   if (normLevel === 'MEDIUM') {
     return (
-      <span className="badge badge-medium" title={`Risk Level: Medium${score !== undefined ? ` (${score.toFixed(1)})` : ''}`}>
+      <span className="badge badge-medium" title="Risk Classification: Medium">
         <AlertTriangle size={13} />
         <span>Medium</span>
-        {showScore && score !== undefined && <span style={{ opacity: 0.85 }}>({score.toFixed(1)})</span>}
       </span>
     );
   }
 
   return (
-    <span className="badge badge-low" title={`Risk Level: Low${score !== undefined ? ` (${score.toFixed(1)})` : ''}`}>
+    <span className="badge badge-low" title="Risk Classification: Low">
       <ShieldCheck size={13} />
       <span>Low</span>
-      {showScore && score !== undefined && <span style={{ opacity: 0.85 }}>({score.toFixed(1)})</span>}
     </span>
   );
 };

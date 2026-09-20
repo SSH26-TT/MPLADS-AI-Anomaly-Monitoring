@@ -4,19 +4,27 @@ import { Project, FilterOptions, ProjectFilters } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
 import { Pagination } from '../components/Pagination';
-import { DisclaimerBanner } from '../components/DisclaimerBanner';
-import { ScoreLegend } from '../components/ScoreLegend';
 import { getScoreColor } from '../utils/colors';
-import { Search, RotateCcw, ArrowUpDown, Eye, RefreshCw } from 'lucide-react';
-
+import { Search, RotateCcw, ArrowUpDown, RefreshCw } from 'lucide-react';
 
 interface ProjectsProps {
   onSelectProject: (p: Project) => void;
   globalSearch: string;
   selectedState: string;
+  initialFilters?: {
+    risk_level?: string;
+    investigation_priority?: string;
+    payment_data_available?: string;
+    state?: string;
+  } | null;
 }
 
-export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearch, selectedState }) => {
+export const Projects: React.FC<ProjectsProps> = ({ 
+  onSelectProject, 
+  globalSearch, 
+  selectedState,
+  initialFilters 
+}) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -28,12 +36,12 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
   const [search, setSearch] = useState(globalSearch || '');
-  const [stateFilter, setStateFilter] = useState(selectedState !== 'ALL' ? selectedState : 'ALL');
+  const [stateFilter, setStateFilter] = useState(selectedState !== 'ALL' ? selectedState : (initialFilters?.state || 'ALL'));
   const [fyFilter, setFyFilter] = useState('ALL');
   const [categoryFilter, setCategoryFilter] = useState('ALL');
-  const [riskFilter, setRiskFilter] = useState('ALL');
-  const [priorityFilter, setPriorityFilter] = useState('ALL');
-  const [paymentAvailFilter, setPaymentAvailFilter] = useState<string>('ALL');
+  const [riskFilter, setRiskFilter] = useState(initialFilters?.risk_level || 'ALL');
+  const [priorityFilter, setPriorityFilter] = useState(initialFilters?.investigation_priority || 'ALL');
+  const [paymentAvailFilter, setPaymentAvailFilter] = useState<string>(initialFilters?.payment_data_available || 'ALL');
   const [sortBy, setSortBy] = useState('final_risk_score');
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
 
@@ -62,6 +70,25 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
       setStateFilter(selectedState);
     }
   }, [selectedState]);
+
+  // Sync initial navigation filters from dashboard clicks
+  useEffect(() => {
+    if (initialFilters) {
+      if (initialFilters.risk_level !== undefined) {
+        setRiskFilter(initialFilters.risk_level);
+      }
+      if (initialFilters.investigation_priority !== undefined) {
+        setPriorityFilter(initialFilters.investigation_priority);
+      }
+      if (initialFilters.payment_data_available !== undefined) {
+        setPaymentAvailFilter(initialFilters.payment_data_available);
+      }
+      if (initialFilters.state !== undefined) {
+        setStateFilter(initialFilters.state);
+      }
+      setPage(1);
+    }
+  }, [initialFilters]);
 
   // Fetch works from backend API
   const fetchWorks = useCallback(async () => {
@@ -123,8 +150,6 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
 
   return (
     <div>
-      <DisclaimerBanner />
-
       <div className="page-title-row">
         <div className="page-title-group">
           <span className="page-badge-tag">Registry & Monitoring</span>
@@ -199,9 +224,10 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
                 className="select-control"
               >
                 <option value="ALL">All Risk Levels</option>
-                {filterOptions.risk_levels.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
+                {filterOptions.risk_levels.map((r) => {
+                  const label = r === 'VERY_HIGH' ? 'Very High' : r === 'HIGH' ? 'High' : r === 'MEDIUM' ? 'Medium' : r === 'LOW' ? 'Low' : r;
+                  return <option key={r} value={r}>{label}</option>;
+                })}
               </select>
             </div>
 
@@ -213,9 +239,10 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
                 className="select-control"
               >
                 <option value="ALL">All Priorities</option>
-                {filterOptions.investigation_priorities.map((p) => (
-                  <option key={p} value={p}>{p}</option>
-                ))}
+                {filterOptions.investigation_priorities.map((p) => {
+                  const label = p === 'CRITICAL_REVIEW' ? 'Critical Review' : p === 'HIGH_REVIEW' ? 'High Priority Review' : p === 'REVIEW' ? 'Requires Review' : p === 'NORMAL' ? 'Normal' : p.replace(/_/g, ' ');
+                  return <option key={p} value={p}>{label}</option>;
+                })}
               </select>
             </div>
 
@@ -246,46 +273,38 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
         </div>
       </div>
 
-      {/* Score Legend Banner */}
-      <div style={{ marginBottom: '16px' }}>
-        <ScoreLegend />
-      </div>
-
       {/* Projects Table */}
       <div className="table-container">
         <table>
           <thead>
             <tr>
               <th onClick={() => handleSortToggle('work_id')} style={{ cursor: 'pointer' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
                   Work ID {sortBy === 'work_id' && <ArrowUpDown size={12} />}
                 </span>
               </th>
-              <th>Work Title</th>
               <th onClick={() => handleSortToggle('state')} style={{ cursor: 'pointer' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
                   State {sortBy === 'state' && <ArrowUpDown size={12} />}
                 </span>
               </th>
               <th>FY</th>
-              <th style={{ textAlign: 'right' }}>Financial Risk</th>
-              <th style={{ textAlign: 'right' }}>Payment Risk</th>
-              <th style={{ textAlign: 'right' }}>Exec Risk</th>
-              <th onClick={() => handleSortToggle('final_risk_score')} style={{ cursor: 'pointer', textAlign: 'right' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end' }}>
+              <th>Financial Risk</th>
+              <th>Payment Risk</th>
+              <th>Exec Risk</th>
+              <th onClick={() => handleSortToggle('final_risk_score')} style={{ cursor: 'pointer' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
                   Final Risk {sortBy === 'final_risk_score' && <ArrowUpDown size={12} />}
                 </span>
               </th>
               <th>Risk Level</th>
               <th>Priority</th>
-              <th>Primary Review Reason</th>
-              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={12} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
+                <td colSpan={9} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                     <RefreshCw size={18} className="animate-spin" />
                     <span>Filtering projects...</span>
@@ -294,7 +313,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
               </tr>
             ) : error ? (
               <tr>
-                <td colSpan={12} style={{ textAlign: 'center', padding: '40px', color: '#DC2626' }}>
+                <td colSpan={9} style={{ textAlign: 'center', padding: '40px', color: '#DC2626' }}>
                   <div>{error}</div>
                   <button className="btn btn-outline btn-sm" style={{ marginTop: '12px' }} onClick={fetchWorks}>
                     <RefreshCw size={14} />
@@ -304,7 +323,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
               </tr>
             ) : projects.length === 0 ? (
               <tr>
-                <td colSpan={12} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
+                <td colSpan={9} style={{ textAlign: 'center', padding: '40px', color: 'var(--color-text-secondary)' }}>
                   No projects found matching your search.
                 </td>
               </tr>
@@ -317,19 +336,16 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
                 const finalCol = getScoreColor(project.final_risk_score);
 
                 return (
-                  <tr key={project.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(project)}>
+                  <tr key={project.work_id} style={{ cursor: 'pointer' }} onClick={() => onSelectProject(project)} title="Click to view full project details & specific site description">
                     <td className="work-id-cell">{project.work_id}</td>
-                    <td style={{ maxWidth: '240px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {project.work_title}
-                    </td>
                     <td>{project.state}</td>
                     <td>{project.financial_year}</td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td>
                       <span style={{ fontWeight: 700, color: finCol }}>
                         {project.financial_risk_0_100.toFixed(1)}%
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td>
                       {payRisk !== null ? (
                         <span style={{ fontWeight: 700, color: payCol }}>
                           {payRisk}%
@@ -338,13 +354,13 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
                         <span style={{ color: 'var(--color-text-muted)', fontSize: '11px', fontWeight: 400 }}>N/A</span>
                       )}
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td>
                       <span style={{ fontWeight: 700, color: execCol }}>
                         {project.execution_risk_0_100.toFixed(1)}%
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '3px' }}>
+                    <td>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', margin: '0 auto' }}>
                         <span style={{ fontWeight: 800, fontSize: '14px', color: finalCol }}>
                           {project.final_risk_score.toFixed(1)}%
                         </span>
@@ -358,22 +374,6 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject, globalSearc
                     </td>
                     <td>
                       <PriorityBadge priority={project.investigation_priority} />
-                    </td>
-                    <td style={{ fontSize: '12px', color: 'var(--color-text-secondary)', maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {project.primary_risk_reason}
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-outline btn-sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectProject(project);
-                        }}
-                        title="View details"
-                      >
-                        <Eye size={13} />
-                        <span>Details</span>
-                      </button>
                     </td>
                   </tr>
                 );

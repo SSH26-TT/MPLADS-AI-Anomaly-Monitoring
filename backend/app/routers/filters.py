@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.app.database import get_db
-from backend.app.models.project import MPLADSProject
-from backend.app.schemas.project import FilterOptions
+from app.database import get_db
+from app.models.project import MPLADSProject
+from app.schemas.project import FilterOptions
 
 router = APIRouter(prefix="/api", tags=["Filter Metadata"])
 
