@@ -5,9 +5,9 @@
 
 <br/>
 
-[![Live Web App](https://img.shields.io/badge/Live%20Dashboard-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white&labelColor=4F46E5)](https://mplads-ai-anomaly-monitoring.vercel.app/)
-[![Live Backend](https://img.shields.io/badge/Live%20Backend-Render-005A36?style=for-the-badge&logo=render&logoColor=white&labelColor=0D9488)](https://mplads-ai-anomaly-monitoring.onrender.com/)
-[![Interactive Swagger API Docs](https://img.shields.io/badge/Swagger%20API%20Docs-Interactive%20Live-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0284C7)](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
+[![Live AWS Web App](https://img.shields.io/badge/Live%20Portal-AWS%20EC2-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white&labelColor=232F3E)](http://65.2.37.39/)
+[![Live Swagger API](https://img.shields.io/badge/Interactive%20Swagger%20API-Live%20Docs-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0284C7)](http://65.2.37.39/docs)
+[![System Health](https://img.shields.io/badge/System%20Health-Online-10B981?style=for-the-badge&logo=docker&logoColor=white&labelColor=064E3B)](http://65.2.37.39/health)
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%7C%20TypeScript-0284C7?style=for-the-badge&logo=react&logoColor=white&labelColor=1E40AF)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.10+-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0F766E)](https://fastapi.tiangolo.com/)
 [![ML Suite](https://img.shields.io/badge/ML%20Suite-LightGBM%20%2B%20Isolation%20Forest-EA580C?style=for-the-badge&logo=scikit-learn&logoColor=white&labelColor=9A3412)](https://scikit-learn.org/)
@@ -16,14 +16,15 @@
 
 <br/>
 
-### 🌐 **Live Cloud Deployment**:
-**🖥️ Live Web Dashboard**: [`https://mplads-ai-anomaly-monitoring.vercel.app`](https://mplads-ai-anomaly-monitoring.vercel.app/)  
-**⚡ Backend API Service**: [`https://mplads-ai-anomaly-monitoring.onrender.com`](https://mplads-ai-anomaly-monitoring.onrender.com/)  
-**📖 Interactive Swagger API Docs**: [`https://mplads-ai-anomaly-monitoring.onrender.com/docs`](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
+### 🌐 **Live Cloud Deployment (Active on AWS)**:
+* **🖥️ Live Web Dashboard**: [`http://65.2.37.39/`](http://65.2.37.39/)
+* **⚡ Backend REST API**: [`http://65.2.37.39/api/summary`](http://65.2.37.39/api/summary)
+* **📖 Interactive Swagger API Docs**: [`http://65.2.37.39/docs`](http://65.2.37.39/docs)
+* **🩺 Live Health Check**: [`http://65.2.37.39/health`](http://65.2.37.39/health)
 
 <br/>
 
-[🌟 Key Highlights](#-key-capabilities) • [🤖 Multi-Model AI Suite](#-multi-model-ai--anomaly-detection-architecture) • [🎨 Sleek UI & Design](#-sleek-modern-ui--design-system) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [🚀 Quick Launch](#-quick-start--local-deployment)
+[🌟 Key Highlights](#-key-capabilities) • [🤖 Multi-Model AI Suite](#-multi-model-ai--anomaly-detection-architecture) • [🎨 Sleek UI & Design](#-sleek-modern-ui--design-system) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [☁️ AWS Deployment](#-aws-cloud-deployment-docker-compose)
 
 </div>
 
@@ -334,31 +335,33 @@ npm run dev -- --host 0.0.0.0 --port 5173
 
 ---
 
-## ☁️ Free Cloud Deployment (Render + Vercel)
+## ☁️ AWS Cloud Deployment (Docker Compose)
 
-### Step 1: Deploy Backend to [Render.com](https://render.com) (Free)
-1. Log in to **[Render.com](https://render.com)** and click **New +** → **Web Service**.
-2. Connect your GitHub repository: `Sankhyaan/MPLADS-AI-Anomaly-Monitoring`.
-3. Configure the service settings:
-   - **Name**: `mplads-ai-backend`
-   - **Language / Runtime**: `Python 3`
-   - **Build Command**: `pip install -r backend/requirements.txt && python backend/scripts/import_data.py`
-   - **Start Command**: `uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT`
-4. Click **Create Web Service**.
-5. Copy your live backend URL (e.g. `https://mplads-ai-backend.onrender.com`).
+The complete application is deployed live on **AWS EC2** using multi-stage Docker container orchestration with an Nginx reverse proxy.
+
+### 🚀 Live Endpoints:
+* **Web Portal**: [http://65.2.37.39/](http://65.2.37.39/)
+* **Interactive Swagger API**: [http://65.2.37.39/docs](http://65.2.37.39/docs)
+* **Backend Health**: [http://65.2.37.39/health](http://65.2.37.39/health)
+
+### 🛠️ One-Command AWS Launch:
+```bash
+# 1. SSH into Ubuntu EC2 instance
+ssh -i "your-key.pem" ubuntu@<YOUR-EC2-IP>
+
+# 2. Clone repository & build
+git clone https://github.com/Sankhyaan/MPLADS-AI-Anomaly-Monitoring.git
+cd MPLADS-AI-Anomaly-Monitoring
+docker compose up -d --build
+```
+> 📄 Detailed guide available in [AWS_DEPLOYMENT_GUIDE.md](./AWS_DEPLOYMENT_GUIDE.md).
 
 ---
 
-### Step 2: Deploy Frontend to [Vercel.com](https://vercel.com) (Free)
-1. Log in to **[Vercel.com](https://vercel.com)** and click **Add New...** → **Project**.
-2. Import repository: `Sankhyaan/MPLADS-AI-Anomaly-Monitoring`.
-3. Configure settings:
-   - **Root Directory**: Select **`frontend`**.
-   - **Framework Preset**: `Vite`
-4. In **Environment Variables**, add:
-   - **Key**: `VITE_API_URL`
-   - **Value**: `https://mplads-ai-backend.onrender.com` *(your Render backend URL)*
-5. Click **Deploy**.
+## ☁️ Alternative Cloud Options (Render + Vercel)
+
+* **Backend**: Push `backend/` to [Render.com](https://render.com) using [render.yaml](./render.yaml).
+* **Frontend**: Deploy `frontend/` to [Vercel.com](https://vercel.com) using [vercel.json](./frontend/vercel.json) with `VITE_API_URL` set to your backend service.
 
 ---
 
@@ -384,6 +387,7 @@ MPLADS-AI-Anomaly-Monitoring/
 │   │   └── main.py
 │   ├── scripts/
 │   │   └── import_data.py
+│   ├── Dockerfile
 │   └── requirements.txt
 ├── 📂 frontend/
 │   ├── public/
@@ -395,7 +399,12 @@ MPLADS-AI-Anomaly-Monitoring/
 │   │   ├── types/
 │   │   ├── App.tsx
 │   │   └── index.css
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   ├── vercel.json
 │   └── package.json
+├── docker-compose.yml
+├── AWS_DEPLOYMENT_GUIDE.md
 ├── render.yaml
 ├── .gitignore
 └── README.md
