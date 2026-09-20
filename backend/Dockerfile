@@ -2,27 +2,20 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=8000
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install python dependencies
-COPY backend/requirements.txt ./requirements.txt
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend application source and dataset
-COPY backend/ ./backend/
-COPY "Data & Models/" "./Data & Models/"
+COPY . .
 
-WORKDIR /app/backend
-
-# Generate and verify SQLite database from authoritative master dataset
+# Generate database from CSV if not existing
 RUN python scripts/import_data.py
 
 EXPOSE 8000
