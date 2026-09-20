@@ -10,7 +10,7 @@
 [![Interactive Swagger API Docs](https://img.shields.io/badge/Swagger%20API%20Docs-Interactive%20Live-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0284C7)](https://mplads-ai-anomaly-monitoring.onrender.com/docs)
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%7C%20TypeScript-0284C7?style=for-the-badge&logo=react&logoColor=white&labelColor=1E40AF)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.10+-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0F766E)](https://fastapi.tiangolo.com/)
-[![Scikit-Learn](https://img.shields.io/badge/ML%20Engine-Dual%20Isolation%20Forest-EA580C?style=for-the-badge&logo=scikit-learn&logoColor=white&labelColor=9A3412)](https://scikit-learn.org/)
+[![ML Suite](https://img.shields.io/badge/ML%20Suite-LightGBM%20%2B%20Isolation%20Forest-EA580C?style=for-the-badge&logo=scikit-learn&logoColor=white&labelColor=9A3412)](https://scikit-learn.org/)
 [![Database](https://img.shields.io/badge/Database-SQLite%20%2F%20PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=1E1B4B)](https://www.sqlite.org/)
 [![National Scope](https://img.shields.io/badge/National%20Scope-98%2C755%20Projects%20%7C%2036%20States-16A34A?style=for-the-badge&logo=target&logoColor=white&labelColor=14532D)](#-the-rising-challenge--our-ai-solution)
 
@@ -23,7 +23,7 @@
 
 <br/>
 
-[🌟 Key Highlights](#-key-capabilities) • [🤖 ML Architecture](#-machine-learning--anomaly-detection-architecture) • [🎨 Modern UI & Design](#-sleek-modern-ui--design-system) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [🚀 Quick Launch](#-quick-start--local-deployment)
+[🌟 Key Highlights](#-key-capabilities) • [🤖 Multi-Model AI Suite](#-multi-model-ai--anomaly-detection-architecture) • [🎨 Sleek UI & Design](#-sleek-modern-ui--design-system) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [🚀 Quick Launch](#-quick-start--local-deployment)
 
 </div>
 
@@ -54,10 +54,11 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
 
 1. **National-Scale Screening in Seconds**: Continuously screens all **98,755 projects nationwide**, turning millions of raw administrative records into actionable intelligence.
 2. **Intelligent Triage (From 100,000 to the Critical 2%)**: Instead of inspecting 100,000 files blindly, our multi-criteria AI engine automatically isolates the **2,090 projects (just ~2%)** showing unusual disbursement patterns or milestone delays.
-3. **Dual Machine Learning + Deterministic Rules**:
-   - **Financial AI Model**: Evaluates sanction-to-disbursement ratios, tranche variance, and budget compliance.
-   - **Payment Velocity AI**: Flags unusual installment release sequences and abnormal vendor concentration.
-   - **Consistency Rules**: Automatically catches physical completion mismatches and sanction overruns.
+3. **Multi-Model AI Suite**:
+   - **Supervised Delay Model (LightGBM)**: Predicts probability of milestone schedule overrun and execution stagnation.
+   - **Scale-Invariant Financial Model (Isolation Forest)**: Flags budget variance against category & peer medians.
+   - **Sequence-Aware Payment Model (Isolation Forest)**: Detects irregular installment release chronology and vendor accumulation.
+   - **Execution & Compliance Engine**: Catches zero-disbursement completions, missing geo-tagged site inspection photos, and sanction limit breaches.
 4. **Actionable Governance**: Auditors can instantly filter state-by-state, inspect component breakdown cards, and examine specific site descriptions with a single click.
 
 ---
@@ -68,10 +69,10 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                   🎯 CORE CAPABILITY HIGHLIGHTS                                       │
 ├──────────────────────────┬──────────────────────────┬──────────────────────────┬───────────────────────┤
-│ 📊 98,755 Projects       │ 🎨 Sleek Gradient UI     │ ⚡ Dynamic State Filter  │ 🔍 Multi-Criteria ML  │
-│ Complete national census │ Obsidian-emerald sidebar │ Instant drill-down in    │ Dual Isolation Forest │
-│ across all 36 States &   │ with glassmorphism cards │ interactive donut cards  │ + Deterministic Rules │
-│ Union Territories.       │ & centered data tables.  │ with 0ms paint latency.  │ (0-100 score scale).  │
+│ 📊 98,755 Projects       │ 🎨 Sleek Gradient UI     │ ⚡ Dynamic State Filter  │ 🔍 Multi-Model AI     │
+│ Complete national census │ Obsidian-emerald sidebar │ Instant drill-down in    │ LightGBM Classifier + │
+│ across all 36 States &   │ with glassmorphism cards │ interactive donut cards  │ Dual Isolation Forest │
+│ Union Territories.       │ & centered data tables.  │ with 0ms paint latency.  │ (0-100 risk scores).  │
 └──────────────────────────┴──────────────────────────┴──────────────────────────┴───────────────────────┘
 ```
 
@@ -82,9 +83,10 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
     <td width="50%">
       <h3>🔍 Automated Anomaly Discovery</h3>
       <ul>
+        <li><b>Supervised Delay Prediction</b>: High-precision gradient boosting model predicting milestone delays before they stall.</li>
         <li><b>Financial Variance Triage</b>: Detects significant mismatches between sanctioned allocations and multi-stage disbursements.</li>
         <li><b>Payment Velocity & Sequences</b>: Flags irregular interval releases and abnormal vendor accumulation patterns.</li>
-        <li><b>Execution Consistency Engine</b>: Automatically identifies projects completed without payment records or exceeding approved sanction ceilings.</li>
+        <li><b>Execution Compliance Engine</b>: Automatically identifies projects completed without payment records, missing geo-photos, or exceeding approved sanction ceilings.</li>
       </ul>
     </td>
     <td width="50%">
@@ -92,6 +94,7 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
       <ul>
         <li><b>Interactive Scope Filtering</b>: Instant state-by-state slice in the national risk donut chart.</li>
         <li><b>Clean Centered Data Hierarchy</b>: All table columns, metrics, and badges are centered for optimal readability.</li>
+        <li><b>Non-Intrusive Tooltips</b>: Compact dark glassmorphism hover pills that never clash with chart visuals.</li>
         <li><b>Temporal Fiscal Analytics</b>: Tracks multi-year risk trajectories across 2023–2027 fiscal periods.</li>
       </ul>
     </td>
@@ -105,29 +108,29 @@ The **MPLADS AI Monitor** transforms this massive operational challenge into an 
 The portal features a **modern gradient & glassmorphism** design crafted specifically for high-density administrative monitoring:
 
 - **Obsidian-Emerald Gradient Sidebar**: Multi-stop gradient (`#021E16` $\rightarrow$ `#063E2F` $\rightarrow$ `#01140E`) with glowing active navigation indicators and official national emblem branding.
-- **Glassmorphic Cards**: `backdrop-filter: blur(14px)` with subtle elevation shadows and `-3px` interactive hover lift.
-- **2x2 Side-by-Side Donut Labels**: Balanced ~30px breathing room between donut ring and side cards with centered statistics and percentages.
+- **Glassmorphic Base Cards**: `backdrop-filter: blur(14px)` with subtle elevation shadows and `-3px` interactive hover lift physics.
+- **2x2 Side-by-Side Donut Labels**: Balanced ~30px breathing room between center ring and side cards with centered statistics and percentages.
 - **SVG Linear Gradients**: Custom `<defs><linearGradient...>` applied across Recharts bar, line, and area charts.
-- **Non-Intrusive Tooltips**: Compact, dark glassmorphic hover cards (`#0F172A`, `blur(8px)`) that display clean metrics without covering graph bars.
+- **Non-Intrusive Tooltips**: Compact, dark glassmorphic hover cards (`#0F172A`, `blur(8px)`) displaying clean metric breakdowns without covering graph bars.
 - **Centered Data Tables**: Centered table headers, row data, meters, and glowing status pills with gradient hover illumination.
 
 ---
 
-## 🎯 Standardized 4-Tier & 5-Tier Risk Scales
+## 🎯 Standardized 5-Tier Risk Classification Scale
 
 Every risk score, percentage number, badge, and progress bar across all modules adheres to a unified color-coded taxonomy:
 
-| Score Range | Color Tone | Hex Code | Visual Indicator | Official Classification | Operational Action |
-| :---: | :---: | :---: | :---: | :---: | :--- |
-| **`0 – 20`** | **Green** | `#059669` | `🟢 [██░░░░░░░░]` | **Low Risk** | Routine administrative record; regular tracking |
-| **`20 – 40`** | **Greenish-Yellow** | `#84CC16` | `🟡 [████░░░░░░]` | **Low-Moderate** | Standard monitoring; normal baseline variance |
-| **`40 – 60`** | **Orange** | `#F97316` | `🟠 [██████░░░░]` | **Medium Risk** | Advisory observation; monitor subsequent releases |
-| **`60 – 80`** | **Light Red** | `#EF4444` | `🔴 [████████░░]` | **High Risk** | **Administrative Review Required** |
-| **`80 – 100`** | **Dark Red** | `#991B1B` | `🟣 [██████████]` | **Very High Risk** | **Priority Review / Field Inquiry Mandated** |
+| Score Range | Tier | Status Tone | Official Classification | Operational Audit Action |
+| :---: | :---: | :---: | :---: | :--- |
+| **0 – 20%** | `Low` | 🟢 Emerald (`#059669`) | **Low Risk** | Routine administrative record; regular tracking |
+| **20 – 40%** | `Low-Mod` | 🟡 Lime-Yellow (`#84CC16`) | **Low-Moderate** | Standard monitoring; normal baseline variance |
+| **40 – 60%** | `Medium` | 🟠 Amber (`#F59E0B`) | **Medium Risk** | Advisory observation; monitor subsequent tranche releases |
+| **60 – 80%** | `High` | 🔴 Coral-Red (`#EF4444`) | **High Risk** | **Administrative Review Required** |
+| **80 – 100%** | `Critical` | 🟣 Ruby-Red (`#991B1B`) | **Very High Risk** | **Priority Review / Field Inquiry Mandated** |
 
 ---
 
-## 🤖 Machine Learning & Anomaly Detection Architecture
+## 🤖 Multi-Model AI & Anomaly Detection Architecture
 
 ```mermaid
 flowchart TD
@@ -139,111 +142,102 @@ flowchart TD
         A5[(mp_allocation)] --> B
     end
 
-    subgraph FeaturePipeline["2. Dual-Grain Feature Extraction"]
-        B --> C1[Work-Grain Financial Vector\n12 Engineered Features]
-        B --> C2[Transaction Sequence Vector\n12 Velocity/Amount Features]
-        B --> C3[Rule-Based Consistency Engine\nCompleted w/o Pay & Sanction Overrun]
+    subgraph MultiModelEngines["2. Multi-Model AI Intelligence Suite"]
+        B --> M1["🤖 Supervised Project Delay Model\nLightGBM Classifier (ROC-AUC / F1)\nPredicts schedule stagnation probability"]
+        B --> M2["📊 Scale-Invariant Financial Model\nIsolation Forest (300 Trees, Peer Medians)\nEvaluates sanction vs disbursement variance"]
+        B --> M3["⚡ Sequence-Aware Payment Model\nIsolation Forest (100k+ Transactions)\nFlags installment gaps & vendor concentration"]
+        B --> M4["⚖️ Execution & Compliance Engine\nDeterministic Multi-Signal Rule Base\nZero-payment completions, missing geo-photos, overruns"]
     end
 
-    subgraph MLEngines["3. Ensemble Modeling (Isolation Forest)"]
-        C1 --> D1["Financial Isolation Forest\n(n_estimators=300, random_state=42)"]
-        C2 --> D2["Payment Isolation Forest\n(Train P99 Threshold = 0.6192)"]
-        C3 --> D3["Deterministic Checks\nBinary Flags (0 / 100)"]
+    subgraph ScoreSynthesis["3. Adaptive Score Synthesis"]
+        M1 --> S["Composite Risk Calculator (0 - 100)"]
+        M2 --> S
+        M3 --> S
+        M4 --> S
+        S --> DB[("Master Risk Dataset\n98,755 Validated Records")]
     end
 
-    subgraph ScoreSynthesis["4. Adaptive Score Aggregation"]
-        D1 --> E["Composite Risk Calculator (0 - 100)"]
-        D2 --> E
-        D3 --> E
-        E --> F[("mplads_final_master_risk.csv\n98,755 Validated Records")]
-    end
-
-    subgraph ServingLayer["5. Full-Stack Application Ecosystem"]
-        F --> G[FastAPI Backend Server :8000]
-        G --> H[React 18 Decision Support Dashboard :5173]
+    subgraph ServingLayer["4. Decision Support Platform"]
+        DB --> API[FastAPI Backend Service :8000]
+        API --> UI[React 18 Decision Support Dashboard :5173]
     end
 
     style DataIngestion fill:#F0FDF4,stroke:#059669,stroke-width:2px;
-    style FeaturePipeline fill:#EFF6FF,stroke:#2563EB,stroke-width:2px;
-    style MLEngines fill:#FEF3C7,stroke:#D97706,stroke-width:2px;
-    style ScoreSynthesis fill:#FEE2E2,stroke:#DC2626,stroke-width:2px;
+    style MultiModelEngines fill:#EFF6FF,stroke:#2563EB,stroke-width:2px;
+    style ScoreSynthesis fill:#FEF3C7,stroke:#D97706,stroke-width:2px;
     style ServingLayer fill:#FAF5FF,stroke:#7E22CE,stroke-width:2px;
 ```
 
 <br/>
 
 <details open>
-<summary><b>📐 Component 1: Work-Grain Financial Risk Model (Click to expand)</b></summary>
+<summary><b>🤖 Model 1: Supervised Project Delay Classifier (LightGBM) — Click to expand</b></summary>
 <br/>
 
-- **Algorithm**: `IsolationForest` (300 Isolation Trees)
-- **Training Period**: Fiscal Years `2023–24`, `2024–25`, `2025–26` | **Test Period**: `2026–27`
-- **12 Mathematical Features**:
-  1. `sanction_amount`: Approved budgetary ceiling.
-  2. `total_disbursed_amount`: Sum of released funds across all installments.
-  3. `payment_count`: Transaction frequency.
-  4. `in_progress_payment_count`: Active incomplete disbursements.
-  5. `in_progress_payment_amount`: Cumulative funds in pending installments.
-  6. `payment_to_sanction_ratio`: Relative disbursement ratio ($\frac{\text{Disbursed}}{\text{Sanction}}$).
-  7. `payment_minus_sanction_amount`: Absolute monetary variance ($\text{Disbursed} - \text{Sanction}$).
-  8. `average_payment_amount`: Mean value per installment tranche.
-  9. `maximum_payment_amount`: Peak single tranche amount.
-  10. `minimum_payment_amount`: Minimum single tranche amount.
-  11. `payment_amount_std`: Standard deviation of installment sizes.
-  12. `payment_duration_days`: Calendar span from first to final release.
+- **Architecture**: Gradient Boosted Decision Tree (`LGBMClassifier`) with class imbalance weighting (`scale_pos_weight`).
+- **Core Features**:
+  1. `sanction_amount`: Approved budgetary allocation.
+  2. `recommendation_to_sanction_days`: Administrative lead time before sanction approval.
+  3. `has_payment_recorded`: Binary flag for fund release initiation.
+  4. `sanction_to_first_payment_days`: Calendar lag from sanction approval to first tranche release.
+  5. `first_payment_amount`: Monetary volume of initial disbursement.
+  6. `first_payment_to_sanction_ratio`: Proportional share of initial release against sanction.
+  7. Categorical dimensions: `house` (Lok Sabha / Rajya Sabha), `work_category`, `state`, and `first_payment_status`.
+- **Output**: Predicts calibrated delay probability score ($0 - 100\%$) for ongoing infrastructure works.
 
 </details>
 
 <br/>
 
 <details>
-<summary><b>⚡ Component 2: Transaction-Grain Payment Anomaly Model (Click to expand)</b></summary>
+<summary><b>📊 Model 2: Scale-Invariant Financial Anomaly Model (Isolation Forest) — Click to expand</b></summary>
 <br/>
 
-- **Algorithm**: Sequence & Velocity `IsolationForest`
-- **Training Dataset**: **100,603** historical payment transactions | **Test Set**: **8,631** transactions
-- **Decision Threshold**: Training P99 benchmark (`0.6191985`)
-- **Stability**: Confirmed invariant across 5 independent random seeds (≥4/5 seed stability = **91.6%**).
-- **12 Velocity Features**:
-  1. `fund_disbursed_amount`: Current tranche magnitude.
-  2. `sanction_amount`: Baseline work approval limit.
-  3. `payment_sequence_number`: Position in installment chain ($1, 2, \dots, n$).
-  4. `days_since_previous_payment`: Velocity gap between consecutive tranches.
-  5. `days_since_sanction`: Calendar lag from sanction to payment.
-  6. `prior_disbursed_amount`: Total funds released prior to current tranche.
-  7. `prior_vendor_count`: Number of historical vendors engaged on this project.
-  8. `payment_share_of_prior_disbursed_amount`: Proportional ratio of current tranche.
-  9. `vendor_previous_payment_count`: Lifetime transaction volume with this specific vendor.
-  10. `vendor_previous_work_count`: Number of projects assigned to this vendor.
-  11. `vendor_previous_total_amount`: Cumulative historical earnings of this vendor.
-  12. `is_success`: Binary completion status.
+- **Architecture**: High-dimensional `IsolationForest` (300 estimators, peer-normalized feature representations).
+- **Core Features**:
+  1. Logarithmic scales: `log_sanction`, `log_disbursed`.
+  2. Relative ratios: `rel_payment_to_sanction`, `rel_payment_duration`.
+  3. Peer median comparative indicators: `rel_sanction_vs_peer`, `rel_payment_count_vs_peer`, `rel_disbursed_vs_peer`.
+  4. Tranche distribution metrics: `rel_avg_installment`, `rel_max_installment`, `payment_count_clean`, `in_progress_ratio`.
+- **Output**: Calibrated Financial Risk Score ($0 - 100\%$) indicating budget allocation anomalies.
 
 </details>
 
 <br/>
 
 <details>
-<summary><b>⚖️ Component 3: Adaptive Multi-Criteria Score Synthesis (Click to expand)</b></summary>
+<summary><b>⚡ Model 3: Sequence-Aware Payment Anomaly Model (Isolation Forest) — Click to expand</b></summary>
 <br/>
 
-The composite risk score dynamically adjusts based on payment transaction telemetry availability:
+- **Architecture**: Sequential & Velocity `IsolationForest` trained on **100,603+ historical disbursement transactions**.
+- **Core Features**:
+  1. `log_fund_disbursed`: Monetary magnitude of current installment.
+  2. `payment_share_of_sanction`: Tranche proportion relative to approved ceiling.
+  3. `days_since_prev_clean`: Velocity gap between consecutive tranches.
+  4. `days_since_sanction_clean`: Calendar lag from sanction to payment.
+  5. Vendor concentration metrics: `prior_vendor_count_clean`, `vendor_prev_pmt_count`, `vendor_prev_work_count`.
+  6. Milestone execution state: `is_first_payment`, `is_success_clean`.
+- **Output**: Calibrated Transaction Risk Score ($0 - 100\%$) isolating irregular payment sequences.
 
-$$\text{Final Risk Score} = \begin{cases} 
-0.50 \cdot \text{FinRisk} + 0.30 \cdot \text{PayRisk} + 0.20 \cdot \text{ExecRisk} & \text{when payment telemetry is available} \\
-0.625 \cdot \text{FinRisk} + 0.375 \cdot \text{ExecRisk} & \text{when payment telemetry is missing}
-\end{cases}$$
+</details>
+
+<br/>
+
+<details>
+<summary><b>⚖️ Engine 4: Physical Execution & Milestone Compliance Engine — Click to expand</b></summary>
+<br/>
+
+- **Mechanism**: Deterministic rule-based governance checks evaluating physical milestones against telemetry:
+  1. **Zero-Payment Completion**: Work marked physically completed with 0 recorded disbursement vouchers (Score = 100).
+  2. **Missing Geo-Tagged Inspection**: Completed work missing mandatory geo-tagged physical site photos (`image_indicator = 0`).
+  3. **Sanction Limit Overrun**: Cumulative released funds exceeding administrative sanction limits.
+  4. **Extended Milestone Stagnation**: Projects where execution duration significantly exceeds national peer benchmarks.
 
 </details>
 
 ---
 
 ## 🖥️ Interactive Portal Walkthrough
-
-```
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   🌐 WEB APPLICATION NAVIGATION TABS                                  │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
 
 <table>
   <tr>
@@ -279,10 +273,6 @@ $$\text{Final Risk Score} = \begin{cases}
 
 The FastAPI server provides high-performance asynchronous endpoints with composite database indexing:
 
-<details open>
-<summary><b>📋 Core REST API Endpoints</b></summary>
-<br/>
-
 | Method | Endpoint | Description | Query Parameters |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/summary` | National KPI metrics, review counts, risk distributions | — |
@@ -292,8 +282,6 @@ The FastAPI server provides high-performance asynchronous endpoints with composi
 | `GET` | `/api/financial-years` | Annual multi-year trends, counts, and risk trajectories | — |
 | `GET` | `/api/filters` | Distinct dynamic dropdown options | — |
 | `GET` | `/api/risk-distribution` | State-level or national risk distribution metrics | `state` |
-
-</details>
 
 ---
 
@@ -365,7 +353,7 @@ npm run dev -- --host 0.0.0.0 --port 5173
 1. Log in to **[Vercel.com](https://vercel.com)** and click **Add New...** → **Project**.
 2. Import repository: `Sankhyaan/MPLADS-AI-Anomaly-Monitoring`.
 3. Configure settings:
-   - **Root Directory**: Click *Edit* and select **`frontend`**.
+   - **Root Directory**: Select **`frontend`**.
    - **Framework Preset**: `Vite`
 4. In **Environment Variables**, add:
    - **Key**: `VITE_API_URL`
@@ -374,68 +362,43 @@ npm run dev -- --host 0.0.0.0 --port 5173
 
 ---
 
-## 📁 Repository Structure
+## 📁 Clean Repository Structure
 
 ```
 MPLADS-AI-Anomaly-Monitoring/
-├── 📂 "Data & Models"/
-│   ├── 📄 mplads_final_master_risk.csv    # Master precomputed dataset (98,755 records)
-│   ├── 📄 work_master.csv                 # Core administrative project registry
-│   ├── 📄 sanction_master.csv             # Sanction approval amounts & dates
-│   ├── 📄 payment_master.csv              # Multi-installment disbursement logs
-│   ├── 📄 completion_master.csv           # Physical completion records
-│   ├── 📄 mp_master.csv                   # Parliamentary representative profiles
-│   ├── 📄 mp_allocation_master.csv        # Constituency allocation limits
-│   ├── 📄 recommendation_master.csv       # MP work recommendations
-│   ├── 📄 calamity_consent_master.csv     # Calamity relief authorizations
-│   ├── 📄 isolation_forest_model.pkl      # Trained Work-grain Financial model
-│   ├── 📄 payment_anomaly_model.pkl       # Trained Transaction-grain Payment model
-│   ├── 📄 payment_anomaly_imputer.pkl     # Payment feature imputer artifact
-│   ├── 📄 risk_engine_metadata.json       # Frozen risk engine configuration
-│   ├── 📄 model_metadata.json             # Financial Isolation Forest specs
-│   ├── 📄 payment_anomaly_metadata.json   # Payment Isolation Forest specs
-│   ├── 📄 model_features.json             # 12 Financial feature definitions
-│   ├── 📄 payment_anomaly_features.json   # 12 Payment feature definitions
-│   ├── 📄 risk_thresholds.json            # Classification cutoff thresholds
-│   └── 📄 payment_anomaly_thresholds.json # Transaction anomaly thresholds
+├── 📂 Data & Models/
+│   ├── mplads_final_master_risk.csv
+│   ├── isolation_forest_model.pkl
+│   ├── payment_anomaly_model.pkl
+│   ├── delay_model.pkl
+│   └── *.json (model metadata & thresholds)
 ├── 📂 Notebooks/
-│   ├── 📂 Isolation_Forest/
-│   │   ├── 📂 Finance_model/              # Work-grain Financial anomaly model workflow
-│   │   │   ├── 📓 01_data_preparation.ipynb          # Feature engineering & dataset construction
-│   │   │   ├── 📓 02_financial_anomaly_model.ipynb   # Isolation Forest model training & evaluation
-│   │   │   └── 📓 03_model_export.ipynb              # Production model & metadata export
-│   │   └── 📂 Payment_model/              # Transaction-grain Sequence & Velocity model
-│   │       └── 📓 01.ipynb                           # Sequence feature engineering & model training
-│   └── 📂 "Execution & Risk_Score"/       # Physical execution consistency & composite risk scoring
-│       ├── 📓 Untitled.ipynb                         # Execution discrepancy heuristics & rules
-│       ├── 📓 Untitled1.ipynb                        # Multi-criteria composite risk calculation
-│       └── 📂 risk_score/                            # Intermediate scoring scripts & output validations
+│   ├── Isolation_Forest/
+│   └── Execution & Risk_Score/
 ├── 📂 backend/
-│   ├── 📂 app/
-│   │   ├── 📂 models/           # SQLAlchemy ORM models (MPLADSProject)
-│   │   ├── 📂 routers/          # FastAPI sub-routers (summary, works, analytics, filters)
-│   │   ├── 📂 schemas/          # Pydantic validation schemas
-│   │   ├── 📄 database.py       # Engine setup (SQLite / PostgreSQL)
-│   │   └── 📄 main.py           # Application entrypoint & CORS middleware
-│   ├── 📂 scripts/
-│   │   └── 📄 import_data.py    # High-speed batch CSV import & validation script
-│   ├── 📄 requirements.txt      # Python dependencies
-│   └── 📄 .env.example          # Environment configuration template
+│   ├── app/
+│   │   ├── models/
+│   │   ├── routers/
+│   │   ├── schemas/
+│   │   ├── database.py
+│   │   └── main.py
+│   ├── scripts/
+│   │   └── import_data.py
+│   └── requirements.txt
 ├── 📂 frontend/
-│   ├── 📂 public/               # Static assets & government emblem logo
-│   ├── 📂 src/
-│   │   ├── 📂 components/       # Modals, ScoreLegend, StatCard, Badges, Header, Sidebar
-│   │   ├── 📂 pages/            # Dashboard, All Works, State & FY Analytics
-│   │   ├── 📂 services/         # Axios API client
-│   │   ├── 📂 utils/            # 5-tier color scale & formatting utilities
-│   │   ├── 📂 types/            # TypeScript data contracts
-│   │   ├── 📄 App.tsx           # Main application shell & routing
-│   │   └── 📄 index.css         # Modern design tokens, utilities & responsive styles
-│   ├── 📄 package.json          # Node dependencies
-│   └── 📄 vite.config.ts        # Vite configuration
-├── 📄 .gitignore                # Git exclusions
-├── 📄 render.yaml               # Render infrastructure-as-code
-└── 📄 README.md                 # Project documentation
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── types/
+│   │   ├── App.tsx
+│   │   └── index.css
+│   └── package.json
+├── render.yaml
+├── .gitignore
+└── README.md
 ```
 
 ---
