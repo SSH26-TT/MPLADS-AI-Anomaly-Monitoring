@@ -1,0 +1,36 @@
+name: Deploy MPLADS to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Auto Deploy on Push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: SSH into EC2 and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "🚀 Deploying latest MPLADS updates to AWS EC2..."
+            if [ -d "$HOME/MPLADS-AI-Anomaly-Monitoring" ]; then
+              cd "$HOME/MPLADS-AI-Anomaly-Monitoring"
+            elif [ -d "$HOME/MPLADS_PROJECT" ]; then
+              cd "$HOME/MPLADS_PROJECT"
+            elif [ -d "$HOME/mplads-ai-monitor" ]; then
+              cd "$HOME/mplads-ai-monitor"
+            fi
+            
+            git pull origin main
+            docker compose down
+            docker compose up -d --build
+            echo "✅ MPLADS deployment complete and live on Port 80 & 8000!"
