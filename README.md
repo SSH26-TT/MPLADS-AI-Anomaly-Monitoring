@@ -5,9 +5,9 @@
 
 <br/>
 
-[![Live AWS Web App](https://img.shields.io/badge/Live%20Portal-AWS%20EC2-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white&labelColor=232F3E)](http://65.2.37.39/)
-[![Live Swagger API](https://img.shields.io/badge/Interactive%20Swagger%20API-Live%20Docs-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0284C7)](http://65.2.37.39/docs)
-[![System Health](https://img.shields.io/badge/System%20Health-Online-10B981?style=for-the-badge&logo=docker&logoColor=white&labelColor=064E3B)](http://65.2.37.39/health)
+[![Live AWS Web App](https://img.shields.io/badge/Live%20Portal-AWS%20EC2-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white&labelColor=232F3E)](http://13.203.136.117/)
+[![Live Swagger API](https://img.shields.io/badge/Interactive%20Swagger%20API-Live%20Docs-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0284C7)](http://13.203.136.117/docs)
+[![System Health](https://img.shields.io/badge/System%20Health-Online-10B981?style=for-the-badge&logo=docker&logoColor=white&labelColor=064E3B)](http://13.203.136.117/health)
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%7C%20TypeScript-0284C7?style=for-the-badge&logo=react&logoColor=white&labelColor=1E40AF)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Python%203.10+-059669?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=0F766E)](https://fastapi.tiangolo.com/)
 [![ML Suite](https://img.shields.io/badge/ML%20Suite-LightGBM%20%2B%20Isolation%20Forest-EA580C?style=for-the-badge&logo=scikit-learn&logoColor=white&labelColor=9A3412)](https://scikit-learn.org/)
@@ -17,10 +17,10 @@
 <br/>
 
 ### 🌐 **Live Cloud Deployment (Active on AWS)**:
-* **🖥️ Live Web Dashboard**: [`http://65.2.37.39/`](http://65.2.37.39/)
-* **⚡ Backend REST API**: [`http://65.2.37.39/api/summary`](http://65.2.37.39/api/summary)
-* **📖 Interactive Swagger API Docs**: [`http://65.2.37.39/docs`](http://65.2.37.39/docs)
-* **🩺 Live Health Check**: [`http://65.2.37.39/health`](http://65.2.37.39/health)
+* **🖥️ Live Web Dashboard**: [`http://13.203.136.117/`](http://13.203.136.117/)
+* **⚡ Backend REST API**: [`http://13.203.136.117/api/summary`](http://13.203.136.117/api/summary)
+* **📖 Interactive Swagger API Docs**: [`http://13.203.136.117/docs`](http://13.203.136.117/docs)
+* **🩺 Live Health Check**: [`http://13.203.136.117/health`](http://13.203.136.117/health)
 
 <br/>
 
@@ -340,9 +340,9 @@ npm run dev -- --host 0.0.0.0 --port 5173
 The complete application is deployed live on **AWS EC2** using multi-stage Docker container orchestration with an Nginx reverse proxy.
 
 ### 🚀 Live Endpoints:
-* **Web Portal**: [http://65.2.37.39/](http://65.2.37.39/)
-* **Interactive Swagger API**: [http://65.2.37.39/docs](http://65.2.37.39/docs)
-* **Backend Health**: [http://65.2.37.39/health](http://65.2.37.39/health)
+* **Web Portal**: [http://13.203.136.117/](http://13.203.136.117/)
+* **Interactive Swagger API**: [http://13.203.136.117/docs](http://13.203.136.117/docs)
+* **Backend Health**: [http://13.203.136.117/health](http://13.203.136.117/health)
 
 ### 🛠️ One-Command AWS Launch:
 ```bash
