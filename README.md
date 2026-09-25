@@ -16,15 +16,25 @@
 
 <br/>
 
-### 🌐 **Live Cloud Deployment (Active on AWS)**:
-* **🖥️ Live Web Dashboard**: [`http://13.203.136.117/`](http://13.203.136.117/)
-* **⚡ Backend REST API**: [`http://13.203.136.117/api/summary`](http://13.203.136.117/api/summary)
-* **📖 Interactive Swagger API Docs**: [`http://13.203.136.117/docs`](http://13.203.136.117/docs)
-* **🩺 Live Health Check**: [`http://13.203.136.117/health`](http://13.203.136.117/health)
+### 🌐 **Live Cloud Deployment (Active on AWS)**
+
+<p align="center">
+  🖥️ <b>Live Web Dashboard:</b> <a href="http://13.203.136.117/"><code>http://13.203.136.117/</code></a><br/>
+  ⚡ <b>Backend REST API:</b> <a href="http://13.203.136.117/api/summary"><code>http://13.203.136.117/api/summary</code></a><br/>
+  📖 <b>Interactive Swagger API Docs:</b> <a href="http://13.203.136.117/docs"><code>http://13.203.136.117/docs</code></a><br/>
+  🩺 <b>Live Health Check:</b> <a href="http://13.203.136.117/health"><code>http://13.203.136.117/health</code></a>
+</p>
 
 <br/>
 
-[🌟 Key Highlights](#-key-capabilities) • [🤖 Multi-Model AI Suite](#-multi-model-ai--anomaly-detection-architecture) • [🎨 Sleek UI & Design](#-sleek-modern-ui--design-system) • [🖥️ Dashboard Tour](#-interactive-portal-walkthrough) • [📡 API Reference](#-backend-api-ecosystem) • [☁️ AWS Deployment](#-aws-cloud-deployment-docker-compose)
+<p align="center">
+  <a href="#-key-capabilities">🌟 Key Highlights</a> • 
+  <a href="#-multi-model-ai--anomaly-detection-architecture">🤖 Multi-Model AI Suite</a> • 
+  <a href="#-sleek-modern-ui--design-system">🎨 Sleek UI & Design</a> • 
+  <a href="#-interactive-portal-walkthrough">🖥️ Dashboard Tour</a> • 
+  <a href="#-backend-api-ecosystem">📡 API Reference</a> • 
+  <a href="#-aws-cloud-deployment-docker-compose">☁️ AWS Deployment</a>
+</p>
 
 </div>
 
